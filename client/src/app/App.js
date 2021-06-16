@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import Users from "../users/pages/Users";
-import Places from "../places/pages/Places";
 import MainNavigation from "../shared/components/navigation/MainNavigation";
 import UserPlaces from "../places/pages/UserPlaces";
+import Place from "../places/pages/Place";
 const App = () => {
   return (
     <div>
@@ -15,10 +15,13 @@ const App = () => {
               <Users />
             </Route>
             <Route path="/places/new" exact>
-              <Places />
+              <Place />
             </Route>
             <Route path="/:userId/places">
               <UserPlaces />
+            </Route>
+            <Route path="/place/new" exact>
+              <Place />
             </Route>
 
             {/* <Route path="/" exact component={Users} /> */}
