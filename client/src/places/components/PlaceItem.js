@@ -23,7 +23,6 @@ const PlaceItem = (props) => {
         footer={<Button onClick={onCloseHandler}>Close</Button>}
       >
         <div className="map-container">
-          <h2>The map</h2>
           <Map center={props.coordinates} zoom={16} />
         </div>
       </Modal>
@@ -41,7 +40,7 @@ const PlaceItem = (props) => {
             <Button inverse onClick={onOpenHandler}>
               View on Map
             </Button>
-            <Button to={`/places/${props.id}`}>Edit</Button>
+            <Button to={`/place/${props.id}`}>Edit</Button>
             <Button danger>Delete</Button>
           </div>
         </Card>
