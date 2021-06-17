@@ -11,7 +11,7 @@ const PlaceItem = (props) => {
 
   const onOpenHandler = () => setShowMap(true);
   const onCloseHandler = () => setShowMap(false);
-
+  console.log(props);
   return (
     <>
       <Modal
@@ -40,7 +40,7 @@ const PlaceItem = (props) => {
             <Button inverse onClick={onOpenHandler}>
               View on Map
             </Button>
-            <Button to={`/place/${props.id}`}>Edit</Button>
+            <Button to={`/place/${props.place.id}`}>Edit</Button>
             <Button danger>Delete</Button>
           </div>
         </Card>
