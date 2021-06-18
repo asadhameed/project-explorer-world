@@ -5,6 +5,7 @@ import MainNavigation from "../shared/components/navigation/MainNavigation";
 import UserPlaces from "../places/pages/UserPlaces";
 import Place from "../places/pages/Place";
 import PlaceUpdate from "../places/pages/PlaceUpdate";
+import Auth from "../users/pages/Auth";
 const App = () => {
   return (
     <div>
@@ -23,6 +24,9 @@ const App = () => {
             </Route>
             <Route path="/place/:placeId">
               <PlaceUpdate />
+            </Route>
+            <Route path="/auth" exact>
+              <Auth />
             </Route>
 
             {/* <Route path="/" exact component={Users} /> */}
