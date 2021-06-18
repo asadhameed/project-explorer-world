@@ -32,3 +32,11 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+#### Errors:-
+
+- 1. Error: Too many re-renders. React limits the number of renders to prevent an infinite loop. Because i call function setFormDate (PlaceUpdate.js) and this re-renders components again and again.</br>
+     <strong> Solution </strong> Use the useEffect hook from React (PlaceUpdate.js).
+- 2. LogicalError: After useEffect then state change in PlaceUpdate but the input did not show the values because the input
+     is first initial. </br>
+     <strong> Solution:-</strong> Check the state.inputs.title.value if empty then return loading page otherwise update the input fields (PlaceUpdate.js)

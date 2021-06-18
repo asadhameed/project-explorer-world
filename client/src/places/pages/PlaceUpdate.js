@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import "./Place.css";
 import Input from "../../shared/components/formElements/Input";
@@ -36,22 +36,60 @@ const placeList = [
 ];
 
 const PlaceUpdate = () => {
+  const [state, onInputHandler, setFormDate] = useForm(false, {
+    title: { value: "", isValid: false },
+    description: { value: "", isValid: false },
+  });
+
   const { placeId } = useParams();
 
   const place = placeList.find((place) => place.id === placeId);
-  const [state, onInputHandler] = useForm(true, {
-    title: { value: place.title, isValid: true },
-    description: { value: place.description, isValid: true },
-  });
   const placeSubmitHandler = (event) => {
     event.preventDefault();
     console.log(state.inputs);
   };
+  console.log("State", state);
+  useEffect(() => {
+    const inputs = {
+      title: {
+        value: place.title,
+        isValid: true,
+      },
+      description: {
+        value: place.description,
+        isValid: true,
+      },
+    };
+    setFormDate(inputs, true);
+  }, [place, setFormDate]);
 
+  /*********
+   * If We not useEffect:- this error will come 'Error: Too many re-renders. React limits the number of renders to prevent an infinite loop.
+   *
+   */
+  // const inputs = {
+  //   title: {
+  //     value: place.title,
+  //     isValid: true,
+  //   },
+  //   description: {
+  //     value: place.description,
+  //     isValid: true,
+  //   },
+  // };
+  // setFormDate(inputs, true);
   if (!place) {
     return (
       <div className="center">
         <h2>Place couldn't find</h2>
+      </div>
+    );
+  }
+  if (!state.inputs.title.value) {
+    console.log("yes-------->");
+    return (
+      <div className="center">
+        <h2>Loading................</h2>
       </div>
     );
   }
