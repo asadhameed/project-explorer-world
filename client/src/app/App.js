@@ -21,9 +21,6 @@ const App = () => {
             <Route path="/:userId/places">
               <UserPlaces />
             </Route>
-            <Route path="/place/new" exact>
-              <Place />
-            </Route>
             <Route path="/place/:placeId">
               <PlaceUpdate />
             </Route>

@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import "./Place.css";
 import Input from "../../shared/components/formElements/Input";
 import Button from "../../shared/components/formElements/Button";
+import Card from "../../shared/components/UIElements/Card";
 import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
@@ -50,17 +51,19 @@ const PlaceUpdate = () => {
   };
   console.log("State", state);
   useEffect(() => {
-    const inputs = {
-      title: {
-        value: place.title,
-        isValid: true,
-      },
-      description: {
-        value: place.description,
-        isValid: true,
-      },
-    };
-    setFormDate(inputs, true);
+    if (place) {
+      const inputs = {
+        title: {
+          value: place.title,
+          isValid: true,
+        },
+        description: {
+          value: place.description,
+          isValid: true,
+        },
+      };
+      setFormDate(inputs, true);
+    }
   }, [place, setFormDate]);
 
   /*********
@@ -81,15 +84,18 @@ const PlaceUpdate = () => {
   if (!place) {
     return (
       <div className="center">
-        <h2>Place couldn't find</h2>
+        <Card>
+          <h2>Place couldn't find</h2>
+        </Card>
       </div>
     );
   }
   if (!state.inputs.title.value) {
-    console.log("yes-------->");
     return (
       <div className="center">
-        <h2>Loading................</h2>
+        <Card>
+          <h2>Loading................</h2>
+        </Card>
       </div>
     );
   }
