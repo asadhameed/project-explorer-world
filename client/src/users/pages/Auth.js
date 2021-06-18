@@ -9,13 +9,34 @@ import Card from "../../shared/components/UIElements/Card";
 import { useForm } from "../../shared/hooks/form_hook";
 import Button from "../../shared/components/formElements/Button";
 const Auth = () => {
-  const [state, onInputHandler] = useForm();
+  const [state, onInputHandler, setFormDate] = useForm();
   const onFromSubmit = (event) => {
     event.preventDefault();
     console.log(state);
   };
   const [isLogin, setLoginMode] = useState(true);
+
   const switchHandlerMode = () => {
+    if (!isLogin) {
+      setFormDate(
+        {
+          ...state.inputs,
+          name: undefined,
+        },
+        state.inputs.email.isValid && state.inputs.password.isValid
+      );
+    } else {
+      setFormDate(
+        {
+          ...state.inputs,
+          name: {
+            value: "",
+            isValid: false,
+          },
+        },
+        false
+      );
+    }
     setLoginMode((prevMode) => !prevMode);
   };
   return (
@@ -23,6 +44,18 @@ const Auth = () => {
       <h1>{isLogin ? "Login Required" : "User Sign Up"}</h1>
       <hr />
       <form onSubmit={onFromSubmit}>
+        {!isLogin && (
+          <Input
+            id="name"
+            label="Your Name"
+            element="input"
+            type="text"
+            placeholder="User Name"
+            validators={[VALIDATOR_MINLENGTH(3)]}
+            errorText="Please enter a name"
+            onInput={onInputHandler}
+          />
+        )}
         <Input
           id="email"
           label="Email"
@@ -34,7 +67,7 @@ const Auth = () => {
           onInput={onInputHandler}
         />
         <Input
-          id="Password"
+          id="password"
           element="input"
           label="Password"
           type="password"

@@ -49,7 +49,7 @@ const PlaceUpdate = () => {
     event.preventDefault();
     console.log(state.inputs);
   };
-  console.log("State", state);
+
   useEffect(() => {
     if (place) {
       const inputs = {
