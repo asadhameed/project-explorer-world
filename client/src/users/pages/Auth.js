@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Auth.css";
 import Input from "../../shared/components/formElements/Input";
 import {
@@ -15,30 +15,44 @@ const Auth = () => {
     console.log(state);
   };
   const [isLogin, setLoginMode] = useState(true);
+  const [inputRest, SetInputRest] = useState(false);
 
   const switchHandlerMode = () => {
-    if (!isLogin) {
-      setFormDate(
-        {
-          ...state.inputs,
-          name: undefined,
-        },
-        state.inputs.email.isValid && state.inputs.password.isValid
-      );
-    } else {
-      setFormDate(
-        {
-          ...state.inputs,
-          name: {
-            value: "",
-            isValid: false,
-          },
-        },
-        false
-      );
-    }
+    /****************************************************************
+     *  When a user Switch from login page to SignUp the following
+     * code isn't change the value of email and password it still
+     * exist in the input value.
+     *****************************************************************/
+    // if (!isLogin) {
+    //   setFormDate(
+    //     {
+    //       ...state.inputs,
+    //       name: undefined,
+    //     },
+    //     state.inputs.email.isValid && state.inputs.password.isValid
+    //   );
+    // } else {
+    //   setFormDate(
+    //     {
+    //       ...state.inputs,
+    //       name: {
+    //         value: "",
+    //         isValid: false,
+    //       },
+    //     },
+    //     false
+    //   );
+    // }
+    console.log("come here---->");
+
     setLoginMode((prevMode) => !prevMode);
+    setFormDate({}, false);
+    SetInputRest(true);
   };
+  useEffect(() => {
+    SetInputRest(false);
+  }, [isLogin]);
+
   return (
     <Card className="authentication">
       <h1>{isLogin ? "Login Required" : "User Sign Up"}</h1>
@@ -54,6 +68,7 @@ const Auth = () => {
             validators={[VALIDATOR_MINLENGTH(3)]}
             errorText="Please enter a name"
             onInput={onInputHandler}
+            restInput={inputRest}
           />
         )}
         <Input
@@ -65,6 +80,7 @@ const Auth = () => {
           validators={[VALIDATOR_EMAIL()]}
           errorText="Please Enter a valid Email"
           onInput={onInputHandler}
+          restInput={inputRest}
         />
         <Input
           id="password"
@@ -75,6 +91,7 @@ const Auth = () => {
           validators={[VALIDATOR_MINLENGTH(5)]}
           errorText="Please enter at least 5 characters password"
           onInput={onInputHandler}
+          restInput={inputRest}
         />
         <Button type="submit" disabled={!state.isValid}>
           {isLogin ? "LOGIN" : "SIGNUP"}

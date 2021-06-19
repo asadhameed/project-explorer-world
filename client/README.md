@@ -1,5 +1,9 @@
 # Getting Started with Create React App
 
+#### Problems
+
+1. When a user switch from login to signUp the input value is don't rest. (Inputs.js comments). For rest the input value i change the logic and introduce the restInput props (Input.js) and change code inside from_hook.js
+
 #### Package Install
 
 ### `npm install --save react-router-dom`

@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useCallback } from "react";
 
 import "./Input.css";
 import { validate } from "../../util/validators";
@@ -13,6 +13,8 @@ const inputReducer = (state, action) => {
       };
     case "TO_TOUCH":
       return { ...state, isTouch: action.payload };
+    case "REST":
+      return { ...state, isTouch: false, value: "", isValid: false };
     default:
       return state;
   }
@@ -24,11 +26,13 @@ const Input = (props) => {
     isTouch: false,
     isValid: props.initialValid || false,
   });
-  const { id, onInput } = props;
+
+  const { id, onInput, restInput } = props;
   const { value, isValid } = state;
   useEffect(() => {
+    if (restInput) dispatch({ type: "REST" });
     onInput(id, value, isValid);
-  }, [id, value, isValid, onInput]);
+  }, [id, value, isValid, onInput, restInput]);
 
   const changeHandler = (event) => {
     dispatch({
