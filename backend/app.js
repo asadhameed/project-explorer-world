@@ -2,11 +2,13 @@ const express = require("express");
 
 const HttpError = require("./src/models/http-error");
 const placesRouter = require("./src/routes/places-routes");
+const usersRouter = require("./src/routes/users-routes");
 
 const app = express();
 app.use(express.json());
 
 app.use("/api/places", placesRouter);
+app.use("/api/users", usersRouter);
 
 /******************************************
  * Register A new Middleware function
