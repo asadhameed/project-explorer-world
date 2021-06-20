@@ -9,4 +9,12 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/places", placesRouter);
+app.use((error, req, res, next) => {
+  if (res.headersSend) {
+    return next(error);
+  }
+  res
+    .status(error.code || 500)
+    .json({ message: error.message || "An unknown Error occurred!" });
+});
 app.listen(5000);
