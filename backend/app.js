@@ -3,12 +3,10 @@ const express = require("express");
 const placesRouter = require("./src/routes/places-routes");
 
 const app = express();
-app.get("/", (req, res) => {
-  console.log("Client Request");
-  res.send("Ok");
-});
+app.use(express.json());
 
 app.use("/api/places", placesRouter);
+
 app.use((error, req, res, next) => {
   if (res.headersSend) {
     return next(error);
