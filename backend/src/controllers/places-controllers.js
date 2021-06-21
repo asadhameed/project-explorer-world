@@ -1,5 +1,6 @@
 let dummyPlaces = require("../../fakePlace");
 const HttpError = require("../models/http-error");
+const getCoordsForAddress = require("../util/location");
 
 const getPlaceById = (req, res, next) => {
   const { pid } = req.params;
@@ -23,10 +24,20 @@ const getPlacesByUserId = (req, res, next) => {
   res.json({ userPlaces });
 };
 
-const createPlace = (req, res, next) => {
-  const body = req.body;
-  dummyPlaces.push(body);
-  res.json({ message: "Create A Place" });
+const createPlace = async (req, res, next) => {
+  const { title, description, address, creator } = req.body;
+  const coords = await getCoordsForAddress(address);
+  const createPlace = {
+    id: Math.random().toString(),
+    title,
+    description,
+    address,
+    coords,
+    creator,
+  };
+
+  dummyPlaces.push(createPlace);
+  res.json({ message: createPlace });
 };
 
 const updatePlaceById = (req, res, next) => {

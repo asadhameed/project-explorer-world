@@ -21,6 +21,11 @@ nodemon is a tool that helps develop node.js based applications by automatically
 Express-validator is a set of express.js middlewares that wraps validator.js validator and sanitizer functions..<br />
 [Read More About Express Validator](https://express-validator.github.io/docs/)
 
+### `npm install --save axios`
+
+Promise based HTTP client for the browser and node.js <br />
+[Read More About Axios](https://axios-http.com/)
+
 ### `npm run start`
 
 Runs the app in the development mode.<br />
