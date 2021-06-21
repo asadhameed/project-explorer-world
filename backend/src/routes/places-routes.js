@@ -1,4 +1,6 @@
 const express = require("express");
+
+const placeValidators = require("../validators/place-validators");
 //// First Method
 // const {
 //   getPlaceById,
@@ -14,9 +16,17 @@ router.get("/:pid", placeControllers.getPlaceById);
 
 router.get("/user/:uid", placeControllers.getPlacesByUserId);
 
-router.post("/", placeControllers.createPlace);
+router.post(
+  "/",
+  placeValidators.createPlaceValidator,
+  placeControllers.createPlace
+);
 
-router.patch("/:pid", placeControllers.updatePlaceById);
+router.patch(
+  "/:pid",
+  placeValidators.updatePlaceValidator,
+  placeControllers.updatePlaceById
+);
 
 router.delete("/:pid", placeControllers.deletePlaceById);
 

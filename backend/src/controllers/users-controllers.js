@@ -1,3 +1,4 @@
+const { validationResult } = require("express-validator");
 let DummyUser = require("../../fakeUser");
 const HttpError = require("../models/http-error");
 
@@ -6,6 +7,12 @@ const getUsers = (req, res, next) => {
 };
 
 const login = (req, res, next) => {
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   return next(
+  //     new HttpError("Invalid Inputs data ,Please Check your inputs", 422)
+  //   );
+  // }
   const { email, password } = req.body;
   const user = DummyUser.find((u) => u.email === email);
   if (!user)
