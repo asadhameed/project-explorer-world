@@ -26,6 +26,11 @@ Express-validator is a set of express.js middlewares that wraps validator.js val
 Promise based HTTP client for the browser and node.js <br />
 [Read More About Axios](https://axios-http.com/)
 
+### `npm install --save mongoose`
+
+Mongoose provides a straight-forward, schema-based solution to model your application data. It includes built-in type casting, validation, query building, business logic hooks and more, out of the box. <br />
+[Read More About Mongoose](https://mongoosejs.com/docs/guide.html)
+
 ### `npm run start`
 
 Runs the app in the development mode.<br />

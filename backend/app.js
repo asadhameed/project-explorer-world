@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 
 const HttpError = require("./src/models/http-error");
 const placesRouter = require("./src/routes/places-routes");
@@ -26,4 +27,16 @@ app.use((error, req, res, next) => {
     .status(error.code || 500)
     .json({ message: error.message || "An unknown Error occurred!" });
 });
-app.listen(5000);
+
+mongoose
+  .connect("mongodb://localhost:27017/placeVisited", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Connect with mongoose and Server is running");
+    app.listen(500);
+  })
+  .catch((error) =>
+    console.log(`Error occur with mongoose connection ${error} `)
+  );
