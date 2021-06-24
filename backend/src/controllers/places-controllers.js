@@ -3,17 +3,25 @@ const HttpError = require("../models/http-error");
 const getCoordsForAddress = require("../util/location");
 const Place = require("../models/place-model");
 
-const getPlaceById = (req, res, next) => {
+const getPlaceById = async (req, res, next) => {
   const { pid } = req.params;
 
-  const place = dummyPlaces.find((p) => p.id === pid);
+  //const place = dummyPlaces.find((p) => p.id === pid);
+  let place;
+  try {
+    place = await Place.findById(pid);
+  } catch (error) {
+    return next(
+      new HttpError("Something went wrong, couldn't find place", 500)
+    );
+  }
 
   if (!place) {
     return next(
       new HttpError("couldn't find a place for the provide place id", 404)
     );
   }
-  return res.json({ place });
+  return res.json({ place: place.toObject({ getters: true }) });
 };
 
 const getPlacesByUserId = (req, res, next) => {
