@@ -1,6 +1,7 @@
 let dummyPlaces = require("../../fakePlace");
 const HttpError = require("../models/http-error");
 const getCoordsForAddress = require("../util/location");
+const Place = require("../models/place-model");
 
 const getPlaceById = (req, res, next) => {
   const { pid } = req.params;
@@ -26,18 +27,30 @@ const getPlacesByUserId = (req, res, next) => {
 
 const createPlace = async (req, res, next) => {
   const { title, description, address, creator } = req.body;
-  const coords = await getCoordsForAddress(address);
-  const createPlace = {
-    id: Math.random().toString(),
-    title,
-    description,
-    address,
-    coords,
-    creator,
-  };
-
-  dummyPlaces.push(createPlace);
-  res.json({ message: createPlace });
+  const location = await getCoordsForAddress(address);
+  try {
+    const createPlace = new Place({
+      title,
+      description,
+      address,
+      location,
+      image: "Temp image",
+      creator,
+    });
+    await createPlace.save();
+    res.json({ message: createPlace });
+  } catch (error) {
+    /*************************************
+     *
+     * throw new HttpError("Creating place failed, Please try again later", 500)
+     *  The upper line will not send error to client and application will crash.
+     * if you want to send error to client then use return next( new HttpError("Creating place failed, Please try again later", 500))
+     */
+    console.log(error);
+    return next(
+      new HttpError("Creating place failed, Please try again later", 500)
+    );
+  }
 };
 
 const updatePlaceById = (req, res, next) => {

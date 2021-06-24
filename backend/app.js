@@ -35,7 +35,7 @@ mongoose
   })
   .then(() => {
     console.log("Connect with mongoose and Server is running");
-    app.listen(500);
+    app.listen(5000);
   })
   .catch((error) =>
     console.log(`Error occur with mongoose connection ${error} `)
