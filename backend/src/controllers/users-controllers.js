@@ -47,7 +47,7 @@ const signup = async (req, res, next) => {
     email,
     password,
     image: "User Image",
-    places: "Visited places",
+    places: [],
   });
   try {
     await createUser.save();
