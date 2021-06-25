@@ -9,17 +9,47 @@ import Card from "../../shared/components/UIElements/Card";
 import { useForm } from "../../shared/hooks/form_hook";
 import Button from "../../shared/components/formElements/Button";
 import { AuthContext } from "../../shared/contexts/AuthContext";
+import Spinner from "../../shared/components/UIElements/LoadingSpinner";
 const Auth = () => {
   const [state, onInputHandler, setFormDate] = useForm();
   const [isLogin, setLoginMode] = useState(true);
   const [inputRest, SetInputRest] = useState(false);
+  const [isSpinnerActive, setSpinnerActive] = useState(false);
   const authContext = useContext(AuthContext);
 
-  const onFromSubmit = (event) => {
+  const onFromSubmit = async (event) => {
     event.preventDefault();
+    setSpinnerActive(true);
     // if (isLogin) authContext.login();
-    authContext.login();
-    console.log(state);
+    if (isLogin) {
+      console.log("log in");
+      setSpinnerActive(false);
+      authContext.login();
+    } else {
+      try {
+        const response = await fetch("http://localhost:5000/api/users/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "Application/json",
+          },
+          body: JSON.stringify({
+            name: state.inputs.name.value,
+            password: state.inputs.password.value,
+            email: state.inputs.email.value,
+          }),
+        });
+
+        console.log(response);
+
+        const responseDate = await response.json();
+        console.log(responseDate);
+        setSpinnerActive(false);
+        authContext.login();
+      } catch (error) {
+        setSpinnerActive(false);
+        console.log(error);
+      }
+    }
   };
 
   const switchHandlerMode = () => {
@@ -60,6 +90,7 @@ const Auth = () => {
   return (
     <Card className="authentication">
       <h1>{isLogin ? "Login Required" : "User Sign Up"}</h1>
+      {isSpinnerActive && <Spinner asOverlay />}
       <hr />
       <form onSubmit={onFromSubmit}>
         {!isLogin && (
@@ -92,7 +123,7 @@ const Auth = () => {
           label="Password"
           type="password"
           placeholder="Password"
-          validators={[VALIDATOR_MINLENGTH(5)]}
+          validators={[VALIDATOR_MINLENGTH(6)]}
           errorText="Please enter at least 5 characters password"
           onInput={onInputHandler}
           restInput={inputRest}
