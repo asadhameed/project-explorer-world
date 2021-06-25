@@ -1,8 +1,8 @@
-/* .user-item {
+.user-item {
   margin: 1rem;
   width: calc(45% - 2rem);
   min-width: 17.5rem;
-} */
+}
 
 .user-item a {
   display: flex;
@@ -19,10 +19,10 @@
 .user-item a:active {
   background: #ffd900;
 }
-/* 
+
 .user-item__content {
   padding: 0;
-} */
+}
 
 .user-item__image {
   width: 4rem;

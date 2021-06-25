@@ -1,22 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import UsersList from "../components/UsersList";
+import Spinner from "../../shared/components/UIElements/LoadingSpinner";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 
 const Users = () => {
-  const users = [
-    {
-      id: "u1",
-      name: "name 1",
-      image:
-        "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg",
-      placeCount: 34,
-    },
-  ];
+  const [isSpinnerActive, setSpinnerActive] = useState(false);
+  const [error, setError] = useState();
+  const [loadingUser, setLoadingUser] = useState();
+  useEffect(() => {
+    const sendRequest = async () => {
+      setSpinnerActive(true);
+      try {
+        const response = await fetch("http://localhost:5000/api/users");
+        const responseData = await response.json();
+        if (!response.ok) throw new Error(responseData.message);
+        console.log(responseData);
+        setLoadingUser(responseData.users);
+      } catch (error) {
+        setError(error);
+      }
+      setSpinnerActive(false);
+    };
+    sendRequest();
+  }, []);
 
   return (
-    <div>
-      <UsersList users={users} />
-    </div>
+    <>
+      {isSpinnerActive && <Spinner asOverlay />}
+      <ErrorModal error={error} onClear={() => setError(null)} />
+      {!isSpinnerActive && loadingUser && <UsersList users={loadingUser} />}
+    </>
   );
 };
 
