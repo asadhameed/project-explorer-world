@@ -119,15 +119,21 @@ const deletePlaceById = async (req, res, next) => {
   const { pid } = req.params;
   let place;
   try {
-    place = await Place.findByIdAndDelete(pid);
+    place = await Place.findById(pid).populate("creator");
+    if (!place) {
+      throw new HttpError("Couldn't find place ", 404);
+    }
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await place.remove();
+    place.creator.places.pull(place);
+    await place.creator.save();
+    await sess.commitTransaction();
+
+    res.json({ message: "Delete the resource" });
   } catch (error) {
     return next(new HttpError("The resource don't delete, Please try later"));
   }
-  console.log(place);
-  if (!place) {
-    throw new HttpError("Bad Request", 404);
-  }
-  res.json({ message: "Delete the resource" });
 };
 
 //// First Method
