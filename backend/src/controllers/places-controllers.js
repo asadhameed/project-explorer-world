@@ -72,14 +72,25 @@ const createPlace = async (req, res, next) => {
   }
 };
 
-const updatePlaceById = (req, res, next) => {
+const updatePlaceById = async (req, res, next) => {
   const { pid } = req.params;
   const { title, description } = req.body;
-  const place = dummyPlaces.find((p) => p.id === pid);
-  if (!place) throw new HttpError("Bad Request", 404);
-  place.title = title;
-  place.description = description;
-  res.send("Update the resource");
+  let updatePlace;
+  try {
+    updatePlace = await Place.findByIdAndUpdate(
+      pid,
+      { title, description },
+      { new: true }
+    );
+  } catch (error) {
+    return next(
+      new HttpError("Something went wrong, couldn't update place", 500)
+    );
+  }
+
+  // if (!place) throw new HttpError("Bad Request", 404); //Using Await-async so better use next function
+  if (!updatePlace) return next(new HttpError("Bad Request", 404));
+  res.json({ updatePlace: updatePlace.toObject({ getters: true }) });
 };
 
 const deletePlaceById = (req, res, next) => {
