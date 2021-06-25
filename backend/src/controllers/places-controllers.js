@@ -93,10 +93,15 @@ const updatePlaceById = async (req, res, next) => {
   res.json({ updatePlace: updatePlace.toObject({ getters: true }) });
 };
 
-const deletePlaceById = (req, res, next) => {
+const deletePlaceById = async (req, res, next) => {
   const { pid } = req.params;
-  const place = dummyPlaces.find((p) => p.id === pid);
-  dummyPlaces = dummyPlaces.filter((p) => p.id !== pid);
+  let place;
+  try {
+    place = await Place.findByIdAndDelete(pid);
+  } catch (error) {
+    return next(new HttpError("The resource don't delete, Please try later"));
+  }
+  console.log(place);
   if (!place) {
     throw new HttpError("Bad Request", 404);
   }
