@@ -3,8 +3,14 @@ let DummyUser = require("../../fakeUser");
 const HttpError = require("../models/http-error");
 const User = require("../models/user-model");
 
-const getUsers = (req, res, next) => {
-  res.send({ user: DummyUser });
+const getUsers = async (req, res, next) => {
+  try {
+    // get All users without password field
+    const users = await User.find({}, "-password");
+    res.send({ users: users.map((user) => user.toObject({ getters: true })) });
+  } catch (error) {
+    return next(new HttpError("Fetching users failed, Please try again later"));
+  }
 };
 
 const login = async (req, res, next) => {
