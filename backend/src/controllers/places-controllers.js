@@ -1,4 +1,3 @@
-let dummyPlaces = require("../../fakePlace");
 const HttpError = require("../models/http-error");
 const getCoordsForAddress = require("../util/location");
 const Place = require("../models/place-model");
@@ -6,7 +5,6 @@ const Place = require("../models/place-model");
 const getPlaceById = async (req, res, next) => {
   const { pid } = req.params;
 
-  //const place = dummyPlaces.find((p) => p.id === pid);
   let place;
   try {
     place = await Place.findById(pid);
