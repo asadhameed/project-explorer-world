@@ -25,7 +25,7 @@ const login = async (req, res, next) => {
       new HttpError("Couldn't identify user, seem wrong email or password", 401)
     );
 
-  res.send("YOu are login");
+  res.json({ message: "You are login" });
 };
 
 const signup = async (req, res, next) => {

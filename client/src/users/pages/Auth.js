@@ -24,9 +24,29 @@ const Auth = () => {
     setSpinnerActive(true);
     // if (isLogin) authContext.login();
     if (isLogin) {
-      console.log("log in");
-      setSpinnerActive(false);
-      authContext.login();
+      try {
+        const response = await fetch("http://localhost:5000/api/users/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "Application/json",
+          },
+          body: JSON.stringify({
+            email: state.inputs.email.value,
+            password: state.inputs.password.value,
+          }),
+        });
+
+        console.log(response);
+        const responseDate = await response.json();
+        if (!response.ok) {
+          throw new Error(responseDate.message);
+        }
+        setSpinnerActive(false);
+        authContext.login();
+      } catch (error) {
+        setSpinnerActive(false);
+        setError(error.message || "Something went wrong, Please try again");
+      }
     } else {
       try {
         const response = await fetch("http://localhost:5000/api/users/signup", {
@@ -41,13 +61,11 @@ const Auth = () => {
           }),
         });
 
-        console.log(response);
-
         const responseDate = await response.json();
         if (!response.ok) {
           throw new Error(responseDate.message);
         }
-        console.log(responseDate);
+
         setSpinnerActive(false);
         authContext.login();
       } catch (error) {
@@ -132,7 +150,7 @@ const Auth = () => {
             type="password"
             placeholder="Password"
             validators={[VALIDATOR_MINLENGTH(6)]}
-            errorText="Please enter at least 5 characters password"
+            errorText="Please enter at least 6 characters password"
             onInput={onInputHandler}
             restInput={inputRest}
           />
