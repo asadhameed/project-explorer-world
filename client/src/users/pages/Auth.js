@@ -19,60 +19,97 @@ const Auth = () => {
   const [error, setError] = useState();
   const authContext = useContext(AuthContext);
 
+  const fetchLogInOrSignUp = async (method, body) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/users/${method}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "Application/json",
+          },
+          body,
+        }
+      );
+
+      console.log(response);
+      const responseDate = await response.json();
+      if (!response.ok) {
+        throw new Error(responseDate.message);
+      }
+      setSpinnerActive(false);
+      authContext.login();
+    } catch (error) {
+      setSpinnerActive(false);
+      setError(error.message || "Something went wrong, Please try again");
+    }
+  };
+
   const onFromSubmit = async (event) => {
     event.preventDefault();
     setSpinnerActive(true);
     // if (isLogin) authContext.login();
     if (isLogin) {
-      try {
-        const response = await fetch("http://localhost:5000/api/users/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "Application/json",
-          },
-          body: JSON.stringify({
-            email: state.inputs.email.value,
-            password: state.inputs.password.value,
-          }),
-        });
+      const body = JSON.stringify({
+        email: state.inputs.email.value,
+        password: state.inputs.password.value,
+      });
+      fetchLogInOrSignUp("login", body);
+      // try {
+      //   const response = await fetch("http://localhost:5000/api/users/login", {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "Application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       email: state.inputs.email.value,
+      //       password: state.inputs.password.value,
+      //     }),
+      //   });
 
-        console.log(response);
-        const responseDate = await response.json();
-        if (!response.ok) {
-          throw new Error(responseDate.message);
-        }
-        setSpinnerActive(false);
-        authContext.login();
-      } catch (error) {
-        setSpinnerActive(false);
-        setError(error.message || "Something went wrong, Please try again");
-      }
+      //   console.log(response);
+      //   const responseDate = await response.json();
+      //   if (!response.ok) {
+      //     throw new Error(responseDate.message);
+      //   }
+      //   setSpinnerActive(false);
+      //   authContext.login();
+      // } catch (error) {
+      //   setSpinnerActive(false);
+      //   setError(error.message || "Something went wrong, Please try again");
+      // }
     } else {
-      try {
-        const response = await fetch("http://localhost:5000/api/users/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "Application/json",
-          },
-          body: JSON.stringify({
-            name: state.inputs.name.value,
-            password: state.inputs.password.value,
-            email: state.inputs.email.value,
-          }),
-        });
+      const body = JSON.stringify({
+        name: state.inputs.name.value,
+        password: state.inputs.password.value,
+        email: state.inputs.email.value,
+      });
+      fetchLogInOrSignUp("signup", body);
+      // try {
+      //   const response = await fetch("http://localhost:5000/api/users/signup", {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "Application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       name: state.inputs.name.value,
+      //       password: state.inputs.password.value,
+      //       email: state.inputs.email.value,
+      //     }),
+      //   });
 
-        const responseDate = await response.json();
-        if (!response.ok) {
-          throw new Error(responseDate.message);
-        }
+      //   const responseDate = await response.json();
+      //   if (!response.ok) {
+      //     throw new Error(responseDate.message);
+      //   }
 
-        setSpinnerActive(false);
-        authContext.login();
-      } catch (error) {
-        console.log(error);
-        setSpinnerActive(false);
-        setError(error.message || "Something went wrong, Please try again");
-      }
+      //   setSpinnerActive(false);
+      //   authContext.login();
+      // } catch (error) {
+      //   console.log(error);
+      //   setSpinnerActive(false);
+      //   setError(error.message || "Something went wrong, Please try again");
+      // }
     }
   };
 
