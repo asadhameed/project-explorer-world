@@ -32,6 +32,7 @@ mongoose
   .connect("mongodb://localhost:27017/placeVisited", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
   })
   .then(() => {
     console.log("Connect with mongoose and Server is running");
