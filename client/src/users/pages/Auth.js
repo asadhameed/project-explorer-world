@@ -10,11 +10,13 @@ import { useForm } from "../../shared/hooks/form_hook";
 import Button from "../../shared/components/formElements/Button";
 import { AuthContext } from "../../shared/contexts/AuthContext";
 import Spinner from "../../shared/components/UIElements/LoadingSpinner";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 const Auth = () => {
   const [state, onInputHandler, setFormDate] = useForm();
   const [isLogin, setLoginMode] = useState(true);
   const [inputRest, SetInputRest] = useState(false);
   const [isSpinnerActive, setSpinnerActive] = useState(false);
+  const [error, setError] = useState();
   const authContext = useContext(AuthContext);
 
   const onFromSubmit = async (event) => {
@@ -42,12 +44,16 @@ const Auth = () => {
         console.log(response);
 
         const responseDate = await response.json();
+        if (!response.ok) {
+          throw new Error(responseDate.message);
+        }
         console.log(responseDate);
         setSpinnerActive(false);
         authContext.login();
       } catch (error) {
-        setSpinnerActive(false);
         console.log(error);
+        setSpinnerActive(false);
+        setError(error.message || "Something went wrong, Please try again");
       }
     }
   };
@@ -88,54 +94,57 @@ const Auth = () => {
   }, [isLogin]);
 
   return (
-    <Card className="authentication">
-      <h1>{isLogin ? "Login Required" : "User Sign Up"}</h1>
-      {isSpinnerActive && <Spinner asOverlay />}
-      <hr />
-      <form onSubmit={onFromSubmit}>
-        {!isLogin && (
+    <>
+      <ErrorModal error={error} onClear={() => setError(null)} />
+      <Card className="authentication">
+        <h1>{isLogin ? "Login Required" : "User Sign Up"}</h1>
+        {isSpinnerActive && <Spinner asOverlay />}
+        <hr />
+        <form onSubmit={onFromSubmit}>
+          {!isLogin && (
+            <Input
+              id="name"
+              label="Your Name"
+              element="input"
+              type="text"
+              placeholder="User Name"
+              validators={[VALIDATOR_MINLENGTH(3)]}
+              errorText="Please enter a name"
+              onInput={onInputHandler}
+              restInput={inputRest}
+            />
+          )}
           <Input
-            id="name"
-            label="Your Name"
+            id="email"
+            label="Email"
             element="input"
-            type="text"
-            placeholder="User Name"
-            validators={[VALIDATOR_MINLENGTH(3)]}
-            errorText="Please enter a name"
+            type="email"
+            placeholder="Enter en email"
+            validators={[VALIDATOR_EMAIL()]}
+            errorText="Please Enter a valid Email"
             onInput={onInputHandler}
             restInput={inputRest}
           />
-        )}
-        <Input
-          id="email"
-          label="Email"
-          element="input"
-          type="email"
-          placeholder="Enter en email"
-          validators={[VALIDATOR_EMAIL()]}
-          errorText="Please Enter a valid Email"
-          onInput={onInputHandler}
-          restInput={inputRest}
-        />
-        <Input
-          id="password"
-          element="input"
-          label="Password"
-          type="password"
-          placeholder="Password"
-          validators={[VALIDATOR_MINLENGTH(6)]}
-          errorText="Please enter at least 5 characters password"
-          onInput={onInputHandler}
-          restInput={inputRest}
-        />
-        <Button type="submit" disabled={!state.isValid}>
-          {isLogin ? "LOGIN" : "SIGNUP"}
+          <Input
+            id="password"
+            element="input"
+            label="Password"
+            type="password"
+            placeholder="Password"
+            validators={[VALIDATOR_MINLENGTH(6)]}
+            errorText="Please enter at least 5 characters password"
+            onInput={onInputHandler}
+            restInput={inputRest}
+          />
+          <Button type="submit" disabled={!state.isValid}>
+            {isLogin ? "LOGIN" : "SIGNUP"}
+          </Button>
+        </form>
+        <Button inverse onClick={switchHandlerMode}>
+          SWITCH TO {isLogin ? "SIGNUP" : "LOGIN"}
         </Button>
-      </form>
-      <Button inverse onClick={switchHandlerMode}>
-        SWITCH TO {isLogin ? "SIGNUP" : "LOGIN"}
-      </Button>
-    </Card>
+      </Card>
+    </>
   );
 };
 
