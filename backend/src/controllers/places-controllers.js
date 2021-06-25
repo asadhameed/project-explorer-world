@@ -24,13 +24,24 @@ const getPlaceById = async (req, res, next) => {
   return res.json({ place: place.toObject({ getters: true }) });
 };
 
-const getPlacesByUserId = (req, res, next) => {
+const getPlacesByUserId = async (req, res, next) => {
   const { uid } = req.params;
-  const userPlaces = dummyPlaces.filter((p) => p.creator === uid);
+  let userPlaces;
+
+  try {
+    userPlaces = await Place.find({ creator: uid });
+  } catch (error) {
+    return next(
+      new HttpError("Fetching places failed, please try again later", 500)
+    );
+  }
+
   if (!userPlaces || userPlaces.length === 0) {
     throw new HttpError("couldn't find a place for the provide user id", 404);
   }
-  res.json({ userPlaces });
+  res.json({
+    userPlaces: userPlaces.map((place) => place.toObject({ getters: true })),
+  });
 };
 
 const createPlace = async (req, res, next) => {
