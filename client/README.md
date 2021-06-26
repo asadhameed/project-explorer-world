@@ -3,6 +3,7 @@
 #### Problems
 
 1. When a user switch from login to signUp the input value is don't rest. (Inputs.js comments). For rest the input value i change the logic and introduce the restInput props (Input.js) and change code inside from_hook.js
+2. If Request send for fetch and if we change the page so fast then we may be get an error because we update the component which don't part of the screen. The solution is the ongoing request can cancel (http-hook.js const activeHttpRequest logic is used)
 
 #### Package Install
 
