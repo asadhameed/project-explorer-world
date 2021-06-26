@@ -24,8 +24,8 @@ const login = async (req, res, next) => {
     return next(
       new HttpError("Couldn't identify user, seem wrong email or password", 401)
     );
-
-  res.json({ message: "You are login" });
+  res.json({ user: user.toObject({ getters: true }) });
+  //  res.json({ message: "You are login" });
 };
 
 const signup = async (req, res, next) => {
@@ -51,7 +51,7 @@ const signup = async (req, res, next) => {
   });
   try {
     await createUser.save();
-    res.status(201).json({ user: createUser.toObject({ getters: true }) });
+    res.json({ user: createUser.toObject({ getters: true }) });
   } catch (error) {
     console.log(error);
     return next(new HttpError("Sign Up is failed, Please try later", 500));

@@ -4,6 +4,9 @@
 
 1. When a user switch from login to signUp the input value is don't rest. (Inputs.js comments). For rest the input value i change the logic and introduce the restInput props (Input.js) and change code inside from_hook.js
 2. If Request send for fetch and if we change the page so fast then we may be get an error because we update the component which don't part of the screen. The solution is the ongoing request can cancel (http-hook.js const activeHttpRequest logic is used)
+3. (http-hooks.js) If not use the useCallback hook then inside(Users.js) if the component update then call again the http-hooks then it will re render infinite time.
+4. In fetch post method, without JSON.stringify (Place.js) gives an error "Access to fetch at 'http://localhost:5000/api/places/' from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled."
+5. To redirect from one page to another you can also use useHistory hook form react-router-dom (see:- Place.js)
 
 #### Package Install
 

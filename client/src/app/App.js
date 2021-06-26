@@ -9,6 +9,7 @@ import Auth from "../users/pages/Auth";
 import { AuthContext } from "../shared/contexts/AuthContext";
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState(null);
   /****************************************************************************
    * Login and logout working correctly But  it is better useCallback hook
    * Login and logout function wraps with use callback so that is not
@@ -16,8 +17,14 @@ const App = () => {
    *****************************************************************************/
   // const login = () => setIsLoggedIn(true);
   // const logout = () => setIsLoggedIn(false);
-  const login = useCallback(() => setIsLoggedIn(true), []);
-  const logout = useCallback(() => setIsLoggedIn(false), []);
+  const login = useCallback((uid) => {
+    setIsLoggedIn(true);
+    setUserId(uid);
+  }, []);
+  const logout = useCallback(() => {
+    setIsLoggedIn(false);
+    setUserId(null);
+  }, []);
 
   let route;
   if (isLoggedIn) {
@@ -57,7 +64,7 @@ const App = () => {
 
   return (
     <div>
-      <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+      <AuthContext.Provider value={{ isLoggedIn, login, logout, userId }}>
         <BrowserRouter>
           <MainNavigation />
           <main>{route}</main>

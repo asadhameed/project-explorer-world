@@ -60,33 +60,37 @@ const Auth = () => {
     };
     const method = "POST";
     //setSpinnerActive(true);
+    let data;
     if (isLogin) {
       const body = JSON.stringify({
         email: state.inputs.email.value,
         password: state.inputs.password.value,
       });
       //  fetchLogInOrSignUp("login", body);
-      const data = await sendRequest(
+      data = await sendRequest(
         `http://localhost:5000/api/users/login`,
         method,
         body,
         headers
       );
-      if (data) authContext.login();
     } else {
       const body = JSON.stringify({
         name: state.inputs.name.value,
         password: state.inputs.password.value,
         email: state.inputs.email.value,
       });
-      const data = await sendRequest(
+      data = await sendRequest(
         `http://localhost:5000/api/users/signup`,
         method,
         body,
         headers
       );
-      if (data) authContext.login();
+
       //   fetchLogInOrSignUp("signup", body);
+    }
+    if (data) {
+      console.log(data);
+      authContext.login(data.user.id);
     }
   };
 

@@ -15,7 +15,7 @@ const UserItem = ({ user }) => {
             <h2>{user.name}</h2>
             <h3>
               {user.places.length}
-              {user.places.length === 1 ? " place" : " places"}
+              {user.places.length <= 1 ? " place" : " places"}
             </h3>
           </div>
         </Link>
