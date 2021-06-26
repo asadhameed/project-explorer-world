@@ -11,105 +11,82 @@ import Button from "../../shared/components/formElements/Button";
 import { AuthContext } from "../../shared/contexts/AuthContext";
 import Spinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import { useHttpClient } from "../../shared/hooks/http-hook";
+
 const Auth = () => {
   const [state, onInputHandler, setFormDate] = useForm();
   const [isLogin, setLoginMode] = useState(true);
   const [inputRest, SetInputRest] = useState(false);
-  const [isSpinnerActive, setSpinnerActive] = useState(false);
-  const [error, setError] = useState();
+  // const [isSpinnerActive, setSpinnerActive] = useState(false);
+  // const [error, setError] = useState();
+  const { isSpinnerActive, httpError, sendRequest, clearError } =
+    useHttpClient();
   const authContext = useContext(AuthContext);
 
-  const fetchLogInOrSignUp = async (method, body) => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/api/users/${method}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "Application/json",
-          },
-          body,
-        }
-      );
+  /*****************************************
+   * Convert into http-hook.js
+   ********************************************/
 
-      console.log(response);
-      const responseDate = await response.json();
-      if (!response.ok) {
-        throw new Error(responseDate.message);
-      }
-      setSpinnerActive(false);
-      authContext.login();
-    } catch (error) {
-      setSpinnerActive(false);
-      setError(error.message || "Something went wrong, Please try again");
-    }
-  };
+  // const fetchLogInOrSignUp = async (method, body) => {
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:5000/api/users/${method}`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "Application/json",
+  //         },
+  //         body,
+  //       }
+  //     );
+
+  //     console.log(response);
+  //     const responseDate = await response.json();
+  //     if (!response.ok) {
+  //       throw new Error(responseDate.message);
+  //     }
+  //     setSpinnerActive(false);
+  //     authContext.login();
+  //   } catch (error) {
+  //     setSpinnerActive(false);
+  //     setError(error.message || "Something went wrong, Please try again");
+  //   }
+  // };
 
   const onFromSubmit = async (event) => {
     event.preventDefault();
-    setSpinnerActive(true);
-    // if (isLogin) authContext.login();
+    const headers = {
+      "Content-Type": "Application/json",
+    };
+    const method = "POST";
+    //setSpinnerActive(true);
     if (isLogin) {
       const body = JSON.stringify({
         email: state.inputs.email.value,
         password: state.inputs.password.value,
       });
-      fetchLogInOrSignUp("login", body);
-      // try {
-      //   const response = await fetch("http://localhost:5000/api/users/login", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "Application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       email: state.inputs.email.value,
-      //       password: state.inputs.password.value,
-      //     }),
-      //   });
-
-      //   console.log(response);
-      //   const responseDate = await response.json();
-      //   if (!response.ok) {
-      //     throw new Error(responseDate.message);
-      //   }
-      //   setSpinnerActive(false);
-      //   authContext.login();
-      // } catch (error) {
-      //   setSpinnerActive(false);
-      //   setError(error.message || "Something went wrong, Please try again");
-      // }
+      //  fetchLogInOrSignUp("login", body);
+      const data = await sendRequest(
+        `http://localhost:5000/api/users/login`,
+        method,
+        body,
+        headers
+      );
+      if (data) authContext.login();
     } else {
       const body = JSON.stringify({
         name: state.inputs.name.value,
         password: state.inputs.password.value,
         email: state.inputs.email.value,
       });
-      fetchLogInOrSignUp("signup", body);
-      // try {
-      //   const response = await fetch("http://localhost:5000/api/users/signup", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "Application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       name: state.inputs.name.value,
-      //       password: state.inputs.password.value,
-      //       email: state.inputs.email.value,
-      //     }),
-      //   });
-
-      //   const responseDate = await response.json();
-      //   if (!response.ok) {
-      //     throw new Error(responseDate.message);
-      //   }
-
-      //   setSpinnerActive(false);
-      //   authContext.login();
-      // } catch (error) {
-      //   console.log(error);
-      //   setSpinnerActive(false);
-      //   setError(error.message || "Something went wrong, Please try again");
-      // }
+      const data = await sendRequest(
+        `http://localhost:5000/api/users/signup`,
+        method,
+        body,
+        headers
+      );
+      if (data) authContext.login();
+      //   fetchLogInOrSignUp("signup", body);
     }
   };
 
@@ -150,7 +127,7 @@ const Auth = () => {
 
   return (
     <>
-      <ErrorModal error={error} onClear={() => setError(null)} />
+      <ErrorModal error={httpError} onClear={clearError} />
       <Card className="authentication">
         <h1>{isLogin ? "Login Required" : "User Sign Up"}</h1>
         {isSpinnerActive && <Spinner asOverlay />}
