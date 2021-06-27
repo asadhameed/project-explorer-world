@@ -1,41 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PlacesList from "../components/PlacesList";
-
-const placeList = [
-  {
-    id: "p1",
-    title: "Peshawar City",
-    description: "This is the famous city in pakistan you can visit this place",
-    image:
-      "https://cdn.britannica.com/05/45505-004-ABC0C282/Mahabat-Khan-Mosque-Peshawar-Pak.jpg",
-    creator: "u2",
-  },
-  {
-    id: "p2",
-    title: "Peshawar City",
-    description: "This is the famous city in pakistan you can visit this place",
-    image:
-      "https://qph.fs.quoracdn.net/main-qimg-cb61980195fa1f30767cab9e2e5193f9",
-    creator: "u2",
-  },
-  {
-    id: "p3",
-    title: "Peshawar City",
-    description: "This is the famous city in pakistan you can visit this place",
-    image:
-      "https://qph.fs.quoracdn.net/main-qimg-cb61980195fa1f30767cab9e2e5193f9",
-    creator: "u1",
-  },
-];
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import Spinner from "../../shared/components/UIElements/LoadingSpinner";
 const UserPlaces = (props) => {
   const { userId } = useParams();
-  const newPlace = placeList.filter((place) => place.creator === userId);
+  const [userPlaces, setUserPlaces] = useState([]);
+  const { isSpinnerActive, sendRequest } = useHttpClient();
+  useEffect(() => {
+    const getUserPlaces = async () => {
+      const data = await sendRequest(
+        `http://localhost:5000/api/places/user/${userId}`
+      );
+      console.log(data);
+      if (data) setUserPlaces(data.places);
+      else setUserPlaces([]);
+    };
+
+    getUserPlaces();
+  }, [sendRequest, userId]);
 
   return (
-    <div>
-      <PlacesList places={newPlace} />
-    </div>
+    <>
+      <div>
+        {isSpinnerActive && (
+          <div className="center">
+            <Spinner asOverlay />
+          </div>
+        )}
+        {!isSpinnerActive && <PlacesList places={userPlaces} />}
+      </div>
+    </>
   );
 };
 
