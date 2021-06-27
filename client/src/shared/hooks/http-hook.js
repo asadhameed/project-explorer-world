@@ -20,6 +20,8 @@ export const useHttpClient = () => {
         activeHttpRequests.current = activeHttpRequests.current.filter(
           (reqCtrl) => reqCtrl !== httpAbortCtrl
         );
+        console.log("---------------->", response);
+        console.log(responseData);
         if (!response.ok) throw new Error(responseData.message);
         setSpinnerActive(false);
         return responseData;
