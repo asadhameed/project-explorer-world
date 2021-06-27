@@ -7,6 +7,8 @@
 3. (http-hooks.js) If not use the useCallback hook then inside(Users.js) if the component update then call again the http-hooks then it will re render infinite time.
 4. In fetch post method, without JSON.stringify (Place.js) gives an error "Access to fetch at 'http://localhost:5000/api/places/' from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled."
 5. To redirect from one page to another you can also use useHistory hook form react-router-dom (see:- Place.js)
+6. In delete place when used the useHistory hook that didn't update the page because router already in the same page (PlaceItem.js see the comments).
+   <strong> Solution </strong> define a deleteHandler where filter the array and remove the element.
 
 #### Package Install
 

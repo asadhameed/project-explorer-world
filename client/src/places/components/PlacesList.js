@@ -23,7 +23,11 @@ const PlacesList = (props) => {
   return (
     <ul className="place-list">
       {props.places.map((place) => (
-        <PlaceItem key={place.id} place={place} />
+        <PlaceItem
+          key={place.id}
+          place={place}
+          onDeletePlace={props.onDeletePlace}
+        />
       ))}
     </ul>
   );

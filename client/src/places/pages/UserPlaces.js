@@ -19,7 +19,12 @@ const UserPlaces = (props) => {
 
     getUserPlaces();
   }, [sendRequest, userId]);
-
+  const onDeleteHandler = (placeId) => {
+    setUserPlaces((prevPlaces) =>
+      prevPlaces.filter((place) => place.id !== placeId)
+    );
+    //setUserPlaces(userPlaces.filter((place) => place.id !== placeId));
+  };
   return (
     <>
       <div>
@@ -28,7 +33,9 @@ const UserPlaces = (props) => {
             <Spinner asOverlay />
           </div>
         )}
-        {!isSpinnerActive && <PlacesList places={userPlaces} />}
+        {!isSpinnerActive && (
+          <PlacesList places={userPlaces} onDeletePlace={onDeleteHandler} />
+        )}
       </div>
     </>
   );
