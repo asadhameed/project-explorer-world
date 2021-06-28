@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const fs = require("fs");
 // const cors = require("cors");
 
 const HttpError = require("./src/models/http-error");
@@ -32,6 +33,12 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
+  if (req.file) {
+    fs.unlink(req.file.path, (error) => {
+      if (error) console.log(error);
+    });
+  }
+
   if (res.headersSend) {
     return next(error);
   }

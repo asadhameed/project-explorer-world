@@ -56,7 +56,6 @@ const Auth = () => {
 
   const onFromSubmit = async (event) => {
     event.preventDefault();
-    console.log(state.inputs);
     const headers = {
       "Content-Type": "Application/json",
     };
@@ -76,22 +75,26 @@ const Auth = () => {
         headers
       );
     } else {
-      const body = JSON.stringify({
-        name: state.inputs.name.value,
-        password: state.inputs.password.value,
-        email: state.inputs.email.value,
-      });
+      const formData = new FormData();
+      formData.append("name", state.inputs.name.value);
+      formData.append("password", state.inputs.password.value);
+      formData.append("email", state.inputs.email.value);
+      formData.append("image", state.inputs.image.value);
+      // const body = JSON.stringify({
+      //   name: state.inputs.name.value,
+      //   password: state.inputs.password.value,
+      //   email: state.inputs.email.value,
+      // });
       data = await sendRequest(
         `http://localhost:5000/api/users/signup`,
         method,
-        body,
-        headers
+        formData
+        //headers
       );
 
       //   fetchLogInOrSignUp("signup", body);
     }
     if (data) {
-      console.log(data);
       authContext.login(data.user.id);
     }
   };
@@ -132,7 +135,7 @@ const Auth = () => {
   useEffect(() => {
     SetInputRest(false);
   }, [isLogin]);
-  console.log("----------->", state);
+
   return (
     <>
       <ErrorModal error={httpError} onClear={clearError} />
