@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const fs = require("fs");
+const path = require("path");
 // const cors = require("cors");
 
 const HttpError = require("./src/models/http-error");
@@ -20,7 +21,10 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods", "GET  , PATCH, DELETE");
   next();
 });
-
+app.use(
+  "/src/uploads/images",
+  express.static(path.join("src", "uploads", "images"))
+);
 app.use("/api/places", placesRouter);
 app.use("/api/users", usersRouter);
 
