@@ -8,8 +8,9 @@ import PlaceUpdate from "../places/pages/PlaceUpdate";
 import Auth from "../users/pages/Auth";
 import { AuthContext } from "../shared/contexts/AuthContext";
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [token, setToken] = useState(null);
   /****************************************************************************
    * Login and logout working correctly But  it is better useCallback hook
    * Login and logout function wraps with use callback so that is not
@@ -17,17 +18,17 @@ const App = () => {
    *****************************************************************************/
   // const login = () => setIsLoggedIn(true);
   // const logout = () => setIsLoggedIn(false);
-  const login = useCallback((uid) => {
-    setIsLoggedIn(true);
+  const login = useCallback((uid, token) => {
     setUserId(uid);
+    setToken(token);
   }, []);
   const logout = useCallback(() => {
-    setIsLoggedIn(false);
     setUserId(null);
+    setToken(null);
   }, []);
 
   let route;
-  if (isLoggedIn) {
+  if (token) {
     route = (
       <Switch>
         <Route path="/" exact>
@@ -64,7 +65,9 @@ const App = () => {
 
   return (
     <div>
-      <AuthContext.Provider value={{ isLoggedIn, login, logout, userId }}>
+      <AuthContext.Provider
+        value={{ isLoggedIn: !!token, login, logout, userId, token }}
+      >
         <BrowserRouter>
           <MainNavigation />
           <main>{route}</main>

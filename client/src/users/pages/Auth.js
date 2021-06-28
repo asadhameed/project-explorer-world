@@ -96,7 +96,7 @@ const Auth = () => {
     }
     if (data) {
       console.log(data);
-      authContext.login(data.userId);
+      authContext.login(data.userId, data.token);
     }
   };
 

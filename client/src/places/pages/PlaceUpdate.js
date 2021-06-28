@@ -29,7 +29,7 @@ const PlaceUpdate = () => {
 
   const placeSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(state.inputs);
+    console.log("token-------->", authContext.token);
 
     const data = await sendRequest(
       `http://localhost:5000/api/places/${placeId}`,
@@ -38,7 +38,10 @@ const PlaceUpdate = () => {
         title: state.inputs.title.value,
         description: state.inputs.description.value,
       }),
-      { "Content-Type": "Application/json" }
+      {
+        "Content-Type": "Application/json",
+        Authorization: `Bearer ${authContext.token}`,
+      }
     );
     if (data) {
       routeHistory.push(`/${authContext.userId}/places`);
@@ -105,7 +108,7 @@ const PlaceUpdate = () => {
     );
   }
 
-  console.log("Place Update Page is running", state);
+  // console.log("Place Update Page is running", state);
   return (
     <>
       {!isSpinnerActive && place && (

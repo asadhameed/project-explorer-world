@@ -18,20 +18,22 @@ const Place = () => {
   const [state, onInputHandler] = useForm();
   const { isSpinnerActive, httpError, sendRequest, clearError } =
     useHttpClient();
-  const { userId } = useContext(AuthContext);
+  const { userId, token } = useContext(AuthContext);
   const routeHistory = useHistory();
 
   const placeSubmitHandler = async (event) => {
     event.preventDefault();
     console.log(state);
-    console.log("userid----->", userId);
+    console.log("token----->", token);
     const formDate = new FormData();
     formDate.append("title", state.inputs.title.value);
     formDate.append("description", state.inputs.description.value);
     formDate.append("address", state.inputs.address.value);
     formDate.append("creator", userId);
     formDate.append("image", state.inputs.image.value);
-
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
     const data = await sendRequest(
       "http://localhost:5000/api/places/",
       "POST",
@@ -41,7 +43,8 @@ const Place = () => {
       //   address: state.inputs.address.value,
       //   creator: userId,
       // }),
-      formDate
+      formDate,
+      headers
       // {
       //   "Content-Type": "Application/json",
       // }
