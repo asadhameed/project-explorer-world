@@ -12,6 +12,7 @@ import { AuthContext } from "../../shared/contexts/AuthContext";
 import Spinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import { useHttpClient } from "../../shared/hooks/http-hook";
+import ImageUpload from "../../shared/components/formElements/ImageUpload";
 
 const Auth = () => {
   const [state, onInputHandler, setFormDate] = useForm();
@@ -55,6 +56,7 @@ const Auth = () => {
 
   const onFromSubmit = async (event) => {
     event.preventDefault();
+    console.log(state.inputs);
     const headers = {
       "Content-Type": "Application/json",
     };
@@ -105,6 +107,7 @@ const Auth = () => {
     //     {
     //       ...state.inputs,
     //       name: undefined,
+    ////       image:undefined,
     //     },
     //     state.inputs.email.isValid && state.inputs.password.isValid
     //   );
@@ -116,6 +119,7 @@ const Auth = () => {
     //         value: "",
     //         isValid: false,
     //       },
+    ////   image:{ value:null , isValid:false}
     //     },
     //     false
     //   );
@@ -128,7 +132,7 @@ const Auth = () => {
   useEffect(() => {
     SetInputRest(false);
   }, [isLogin]);
-
+  console.log("----------->", state);
   return (
     <>
       <ErrorModal error={httpError} onClear={clearError} />
@@ -149,6 +153,9 @@ const Auth = () => {
               onInput={onInputHandler}
               restInput={inputRest}
             />
+          )}
+          {!isLogin && (
+            <ImageUpload center="center" id="image" onInput={onInputHandler} />
           )}
           <Input
             id="email"
