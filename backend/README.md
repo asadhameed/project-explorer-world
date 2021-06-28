@@ -46,6 +46,11 @@ Multer adds a body object and a file or files object to the request object. The 
 To create a random UUID. <br />
 [Read More About uuid](https://www.npmjs.com/package/uuid)
 
+### `npm install --save bcrypt`
+
+A library to help you hash passwords. <br />
+[Read More About bcrypt](https://www.npmjs.com/package/bcrypt)
+
 ### `npm run start`
 
 Runs the app in the development mode.<br />

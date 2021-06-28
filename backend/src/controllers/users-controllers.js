@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const HttpError = require("../models/http-error");
 const User = require("../models/user-model");
 
@@ -19,8 +20,9 @@ const login = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError("Logging in failed , Please try later", 500));
   }
+  const comparePassword = await bcrypt.compare(password, user.password);
 
-  if (!user || user.password !== password)
+  if (!comparePassword)
     return next(
       new HttpError("Couldn't identify user, seem wrong email or password", 401)
     );
@@ -41,11 +43,17 @@ const signup = async (req, res, next) => {
     console.log(error);
     return next(new HttpError("Sign Up is failed , Please try later", 500));
   }
+  let hashPassword;
+  try {
+    hashPassword = await bcrypt.hash(password, 10);
+  } catch (error) {
+    return next(new HttpError("Sign Up is failed, Please try later", 500));
+  }
 
   const createUser = new User({
     name,
     email,
-    password,
+    password: hashPassword,
     image: req.file.path,
     places: [],
   });
