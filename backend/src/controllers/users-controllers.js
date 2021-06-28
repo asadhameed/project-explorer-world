@@ -45,7 +45,7 @@ const login = async (req, res, next) => {
         )
       );
     const token = await generateToken(user);
-    res.json({ userID: user._id, email: user.email, token });
+    res.json({ userId: user._id, email: user.email, token });
   } catch (error) {
     return next(new HttpError("Logging in failed , Please try later", 500));
   }

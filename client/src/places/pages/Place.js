@@ -24,6 +24,7 @@ const Place = () => {
   const placeSubmitHandler = async (event) => {
     event.preventDefault();
     console.log(state);
+    console.log("userid----->", userId);
     const formDate = new FormData();
     formDate.append("title", state.inputs.title.value);
     formDate.append("description", state.inputs.description.value);
