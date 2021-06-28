@@ -1,5 +1,7 @@
 const express = require("express");
 
+const fileUpload = require("../middleware/file-upload");
+
 const placeValidators = require("../validators/place-validators");
 //// First Method
 // const {
@@ -18,6 +20,7 @@ router.get("/user/:uid", placeControllers.getPlacesByUserId);
 
 router.post(
   "/",
+  fileUpload.single("image"),
   placeValidators.createPlaceValidator,
   placeControllers.createPlace
 );
