@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const fs = require("fs");
 const HttpError = require("../models/http-error");
 const getCoordsForAddress = require("../util/location");
 const Place = require("../models/place-model");
@@ -125,13 +126,16 @@ const deletePlaceById = async (req, res, next) => {
     if (!place) {
       throw new HttpError("Couldn't find place ", 404);
     }
+    const deleteImage = place.image;
     const sess = await mongoose.startSession();
     sess.startTransaction();
     await place.remove();
     place.creator.places.pull(place);
     await place.creator.save();
     await sess.commitTransaction();
-
+    fs.unlink(deleteImage, (error) => {
+      if (error) console.log(error);
+    });
     res.json({ message: "Delete the resource" });
   } catch (error) {
     return next(new HttpError("The resource don't delete, Please try later"));
