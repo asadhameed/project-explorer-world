@@ -5,7 +5,7 @@ In the project directory, you can run:
 #### Problems
 
 1. (node:9608) DeprecationWarning: Mongoose: `findOneAndUpdate()` and `findOneAndDelete()` without the `useFindAndModify` option set to false are deprecated. [See](https://mongoosejs.com/docs/deprecations.html#findandmodify) (Use `node --trace-deprecation ...` to show where the warning was created) <strong> Solution </strong> mongoose.set('useFindAndModify', false) (app.js)
-
+2. !!undefine and !!null will return false(file-upload.js)
 
 ### `npm init`
 
@@ -35,6 +35,16 @@ Promise based HTTP client for the browser and node.js <br />
 
 Mongoose provides a straight-forward, schema-based solution to model your application data. It includes built-in type casting, validation, query building, business logic hooks and more, out of the box. <br />
 [Read More About Mongoose](https://mongoosejs.com/docs/guide.html)
+
+### `npm install --save multer`
+
+Multer adds a body object and a file or files object to the request object. The body object contains the values of the text fields of the form, the file or files object contains the files uploaded via the form. <br />
+[Read More About multer](https://github.com/expressjs/multer)
+
+### `npm install --save uuid`
+
+To create a random UUID. <br />
+[Read More About uuid](https://www.npmjs.com/package/uuid)
 
 ### `npm run start`
 
