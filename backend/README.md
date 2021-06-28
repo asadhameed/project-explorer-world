@@ -6,6 +6,7 @@ In the project directory, you can run:
 
 1. (node:9608) DeprecationWarning: Mongoose: `findOneAndUpdate()` and `findOneAndDelete()` without the `useFindAndModify` option set to false are deprecated. [See](https://mongoosejs.com/docs/deprecations.html#findandmodify) (Use `node --trace-deprecation ...` to show where the warning was created) <strong> Solution </strong> mongoose.set('useFindAndModify', false) (app.js)
 2. !!undefine and !!null will return false(file-upload.js)
+3. special note if return promise then write code inside in try catch block
 
 ### `npm init`
 
@@ -50,6 +51,11 @@ To create a random UUID. <br />
 
 A library to help you hash passwords. <br />
 [Read More About bcrypt](https://www.npmjs.com/package/bcrypt)
+
+### `npm install --save jsonwebtoken`
+
+An implementation of JSON Web Tokens. <br />
+[Read More About JSON Web Token](https://www.npmjs.com/package/jsonwebtoken)
 
 ### `npm run start`
 

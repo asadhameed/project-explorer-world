@@ -95,7 +95,8 @@ const Auth = () => {
       //   fetchLogInOrSignUp("signup", body);
     }
     if (data) {
-      authContext.login(data.user.id);
+      console.log(data);
+      authContext.login(data.userId);
     }
   };
 

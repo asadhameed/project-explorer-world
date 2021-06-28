@@ -1,6 +1,24 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const HttpError = require("../models/http-error");
 const User = require("../models/user-model");
+
+const generateToken = async (user) => {
+  let token;
+  try {
+    token = await jwt.sign(
+      { userId: user._id, email: user.email },
+      "myPrivateKey",
+      {
+        expiresIn: "1h",
+      }
+    );
+    console.log(token);
+    return token;
+  } catch (error) {
+    throw error;
+  }
+};
 
 const getUsers = async (req, res, next) => {
   try {
@@ -17,16 +35,21 @@ const login = async (req, res, next) => {
   let user;
   try {
     user = await User.findOne({ email });
+    const comparePassword = await bcrypt.compare(password, user.password);
+
+    if (!comparePassword)
+      return next(
+        new HttpError(
+          "Couldn't identify user, seem wrong email or password",
+          401
+        )
+      );
+    const token = await generateToken(user);
+    res.json({ userID: user._id, email: user.email, token });
   } catch (error) {
     return next(new HttpError("Logging in failed , Please try later", 500));
   }
-  const comparePassword = await bcrypt.compare(password, user.password);
 
-  if (!comparePassword)
-    return next(
-      new HttpError("Couldn't identify user, seem wrong email or password", 401)
-    );
-  res.json({ user: user.toObject({ getters: true }) });
   //  res.json({ message: "You are login" });
 };
 
@@ -59,7 +82,8 @@ const signup = async (req, res, next) => {
   });
   try {
     await createUser.save();
-    res.json({ user: createUser.toObject({ getters: true }) });
+    const token = await generateToken(createUser);
+    res.json({ userId: createUser._id, email: createUser.email, token });
   } catch (error) {
     console.log(error);
     return next(new HttpError("Sign Up is failed, Please try later", 500));
