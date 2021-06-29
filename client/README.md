@@ -6,6 +6,7 @@ The application has the following pages:
 - <strong> Log in Page </strong>
 - <strong> Sign Up Page </strong>
 - <strong> Create A place, Delete a place, Update a place</strong>
+- If A user is login or sign up then save token in localStorage but the token will expire in 1 hour. So after one hour later the user will be logout automatically (App.js).
 
 #### Problems
 

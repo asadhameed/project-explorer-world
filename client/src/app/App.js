@@ -7,10 +7,12 @@ import Place from "../places/pages/Place";
 import PlaceUpdate from "../places/pages/PlaceUpdate";
 import Auth from "../users/pages/Auth";
 import { AuthContext } from "../shared/contexts/AuthContext";
+let timeOutId;
 const App = () => {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null);
   const [token, setToken] = useState(null);
+  const [tokenExpirationDate, setTokenExpirationDate] = useState();
 
   /****************************************************************************
    * Login and logout working correctly But  it is better useCallback hook
@@ -19,26 +21,37 @@ const App = () => {
    *****************************************************************************/
   // const login = () => setIsLoggedIn(true);
   // const logout = () => setIsLoggedIn(false);
+
   const login = useCallback((uid, token, expiration) => {
     setUserId(uid);
     setToken(token);
-    const tokenExpirationData =
-      expiration || new Date(new Date().getTime() + 1000 * 60 * 60);
-    console.log(tokenExpirationData);
+    const tokenExpirationDate =
+      expiration || new Date(new Date().getTime() + 1000 * 60 * 60); // server send token which is expire in one hour
+    setTokenExpirationDate(tokenExpirationDate);
+    console.log(tokenExpirationDate);
     localStorage.setItem(
       "userData",
       JSON.stringify({
         userId: uid,
         token,
-        expiration: tokenExpirationData.toISOString(),
+        expiration: tokenExpirationDate.toISOString(),
       })
     );
   }, []);
   const logout = useCallback(() => {
+    console.log(tokenExpirationDate);
     setUserId(null);
     setToken(null);
     localStorage.removeItem("userData");
   }, []);
+
+  useEffect(() => {
+    if (token && tokenExpirationDate) {
+      const remainingTime =
+        tokenExpirationDate.getTime() - new Date().getTime();
+      timeOutId = setTimeout(logout, remainingTime);
+    } else clearTimeout(timeOutId);
+  }, [token, tokenExpirationDate, logout]);
 
   useEffect(() => {
     try {
