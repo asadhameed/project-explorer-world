@@ -1,4 +1,11 @@
-# Getting Started with Create React App
+# Project Description
+
+The front-end of the web application of <strong>Visited Places</strong>. <br>
+The application has the following pages:
+
+- <strong> Log in Page </strong>
+- <strong> Sign Up Page </strong>
+- <strong> Create A place, Delete a place, Update a place</strong>
 
 #### Problems
 
