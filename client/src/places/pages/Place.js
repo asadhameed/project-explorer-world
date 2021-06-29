@@ -18,18 +18,16 @@ const Place = () => {
   const [state, onInputHandler] = useForm();
   const { isSpinnerActive, httpError, sendRequest, clearError } =
     useHttpClient();
-  const { userId, token } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
   const routeHistory = useHistory();
 
   const placeSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(state);
     console.log("token----->", token);
     const formDate = new FormData();
     formDate.append("title", state.inputs.title.value);
     formDate.append("description", state.inputs.description.value);
     formDate.append("address", state.inputs.address.value);
-    formDate.append("creator", userId);
     formDate.append("image", state.inputs.image.value);
     const headers = {
       Authorization: `Bearer ${token}`,

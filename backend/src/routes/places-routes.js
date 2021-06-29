@@ -1,7 +1,7 @@
 const express = require("express");
 
 const fileUpload = require("../middleware/file-upload");
-const checkAuthToken = require("../middleware/check-auth");
+const auth = require("../middleware/check-auth");
 const placeValidators = require("../validators/place-validators");
 //// First Method
 // const {
@@ -24,7 +24,7 @@ router.get("/user/:uid", placeControllers.getPlacesByUserId);
  * go through this middleware function
  **********************************************************************/
 
-router.use(checkAuthToken);
+router.use(auth.authentication);
 
 router.post(
   "/",
@@ -35,10 +35,11 @@ router.post(
 
 router.patch(
   "/:pid",
+  auth.authorization,
   placeValidators.updatePlaceValidator,
   placeControllers.updatePlaceById
 );
 
-router.delete("/:pid", placeControllers.deletePlaceById);
+router.delete("/:pid", auth.authorization, placeControllers.deletePlaceById);
 
 module.exports = router;

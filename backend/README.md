@@ -7,6 +7,8 @@ In the project directory, you can run:
 1. (node:9608) DeprecationWarning: Mongoose: `findOneAndUpdate()` and `findOneAndDelete()` without the `useFindAndModify` option set to false are deprecated. [See](https://mongoosejs.com/docs/deprecations.html#findandmodify) (Use `node --trace-deprecation ...` to show where the warning was created) <strong> Solution </strong> mongoose.set('useFindAndModify', false) (app.js)
 2. !!undefine and !!null will return false(file-upload.js)
 3. special note if return promise then write code inside in try catch block
+4. Compare String and object will give some logical error (check-auth.js)
+5. Some time the browser send OPTIONS METHOD. If you use middleware function then try to call next middleware (check-auth.js).If remove the req.method="OPTIONS" when you create, update, delete the place then browser will send two request and you will never create, delete, update the place.
 
 ### `npm init`
 
