@@ -8,7 +8,7 @@ const generateToken = async (user) => {
   try {
     token = await jwt.sign(
       { userId: user._id, email: user.email },
-      "myPrivateKey",
+      process.env.JWT_KEY,
       {
         expiresIn: "1h",
       }

@@ -1,0 +1,11 @@
+{
+    "env":{
+        "DB_URL":"mongodb://localhost:27017/visitedPlace",
+        "DB_User":"",
+        "DB_Password":"",
+        "DB_NAME":"visitedPlace",
+        "GOOGLE_API_KEY" :"API_KEY",
+        "JWT_KEY":"myPrivateKey"
+
+    }
+}

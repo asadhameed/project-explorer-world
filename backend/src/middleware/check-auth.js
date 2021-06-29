@@ -9,7 +9,7 @@ const authentication = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
     if (!token) return next(new HttpError("Forbidden", 403));
-    const decode = jwt.verify(token, "myPrivateKey");
+    const decode = jwt.verify(token, process.env.JWT_KEY);
     req.userData = { userId: decode.userId };
     return next();
   } catch (error) {

@@ -50,9 +50,9 @@ app.use((error, req, res, next) => {
     .status(error.code || 500)
     .json({ message: error.message || "An unknown Error occurred!" });
 });
-
+console.log(process.env.DB_URL);
 mongoose
-  .connect("mongodb://localhost:27017/placeVisited", {
+  .connect(`${process.env.DB_URL}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -62,6 +62,6 @@ mongoose
     console.log("Connect with mongoose and Server is running");
     app.listen(5000);
   })
-  .catch((error) =>
-    console.log(`Error occur with mongoose connection ${error} `)
-  );
+  .catch((error) => {
+    console.log(`Error occur with mongoose connection ${error} `);
+  });
