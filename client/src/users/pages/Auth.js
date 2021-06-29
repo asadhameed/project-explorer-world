@@ -20,6 +20,7 @@ const Auth = () => {
   const [inputRest, SetInputRest] = useState(false);
   // const [isSpinnerActive, setSpinnerActive] = useState(false);
   // const [error, setError] = useState();
+  const [imageError, setImageError] = useState(null);
   const { isSpinnerActive, httpError, sendRequest, clearError } =
     useHttpClient();
   const authContext = useContext(AuthContext);
@@ -75,22 +76,28 @@ const Auth = () => {
         headers
       );
     } else {
-      const formData = new FormData();
-      formData.append("name", state.inputs.name.value);
-      formData.append("password", state.inputs.password.value);
-      formData.append("email", state.inputs.email.value);
-      formData.append("image", state.inputs.image.value);
-      // const body = JSON.stringify({
-      //   name: state.inputs.name.value,
-      //   password: state.inputs.password.value,
-      //   email: state.inputs.email.value,
-      // });
-      data = await sendRequest(
-        `http://localhost:5000/api/users/signup`,
-        method,
-        formData
-        //headers
-      );
+      try {
+        const formData = new FormData();
+        formData.append("name", state.inputs.name.value);
+        formData.append("password", state.inputs.password.value);
+        formData.append("email", state.inputs.email.value);
+        formData.append("image", state.inputs.image.value);
+        // const body = JSON.stringify({
+        //   name: state.inputs.name.value,
+        //   password: state.inputs.password.value,
+        //   email: state.inputs.email.value,
+        // });
+        data = await sendRequest(
+          `http://localhost:5000/api/users/signup`,
+          method,
+          formData
+          //headers
+        );
+      } catch (error) {
+        setImageError(
+          "Data is missing, Please check your input data. May be you don't provide user profile picture"
+        );
+      }
 
       //   fetchLogInOrSignUp("signup", body);
     }
@@ -140,6 +147,7 @@ const Auth = () => {
   return (
     <>
       <ErrorModal error={httpError} onClear={clearError} />
+      <ErrorModal error={imageError} onClear={() => setImageError(null)} />
       <Card className="authentication">
         <h1>{isLogin ? "Login Required" : "User Sign Up"}</h1>
         {isSpinnerActive && <Spinner asOverlay />}

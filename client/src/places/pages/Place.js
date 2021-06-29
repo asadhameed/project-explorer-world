@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import "./Place.css";
 import Input from "../../shared/components/formElements/Input";
@@ -20,43 +20,49 @@ const Place = () => {
     useHttpClient();
   const { token } = useContext(AuthContext);
   const routeHistory = useHistory();
+  const [imageError, setImageError] = useState(null);
 
   const placeSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log("token----->", token);
-    const formDate = new FormData();
-    formDate.append("title", state.inputs.title.value);
-    formDate.append("description", state.inputs.description.value);
-    formDate.append("address", state.inputs.address.value);
-    formDate.append("image", state.inputs.image.value);
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    const data = await sendRequest(
-      "http://localhost:5000/api/places/",
-      "POST",
-      // JSON.stringify({
-      //   title: state.inputs.title.value,
-      //   description: state.inputs.description.value,
-      //   address: state.inputs.address.value,
-      //   creator: userId,
-      // }),
-      formDate,
-      headers
-      // {
-      //   "Content-Type": "Application/json",
-      // }
-    );
+    try {
+      const formDate = new FormData();
+      formDate.append("title", state.inputs.title.value);
+      formDate.append("description", state.inputs.description.value);
+      formDate.append("address", state.inputs.address.value);
+      formDate.append("image", state.inputs.image.value);
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const data = await sendRequest(
+        "http://localhost:5000/api/places/",
+        "POST",
+        // JSON.stringify({
+        //   title: state.inputs.title.value,
+        //   description: state.inputs.description.value,
+        //   address: state.inputs.address.value,
+        //   creator: userId,
+        // }),
+        formDate,
+        headers
+        // {
+        //   "Content-Type": "Application/json",
+        // }
+      );
 
-    if (data) {
-      routeHistory.push("/");
+      if (data) {
+        routeHistory.push("/");
+      }
+    } catch (error) {
+      setImageError(
+        "Data is missing, Please check your input data. May be you don't provide place image"
+      );
     }
   };
 
   return (
     <>
       <ErrorModal error={httpError} onClear={clearError} />
-
+      <ErrorModal error={imageError} onClear={() => setImageError(null)} />
       <form className="place-form" onSubmit={placeSubmitHandler}>
         {isSpinnerActive && <Spinner asOverlay />}
         <Input
