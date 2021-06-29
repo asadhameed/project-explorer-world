@@ -32,7 +32,7 @@ const PlaceUpdate = () => {
     console.log("token-------->", authContext.token);
 
     const data = await sendRequest(
-      `http://localhost:5000/api/places/${placeId}`,
+      process.env.REACT_APP_BACKEND_URL + `api/places/${placeId}`,
       "PATCH",
       JSON.stringify({
         title: state.inputs.title.value,
@@ -50,7 +50,7 @@ const PlaceUpdate = () => {
   useEffect(() => {
     const getPlace = async () => {
       const data = await sendRequest(
-        `http://localhost:5000/api/places/${placeId}`
+        process.env.REACT_APP_BACKEND_URL + `api/places/${placeId}`
       );
       if (data) {
         if (data.place) {

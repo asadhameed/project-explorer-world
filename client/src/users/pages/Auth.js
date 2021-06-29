@@ -70,7 +70,7 @@ const Auth = () => {
       });
       //  fetchLogInOrSignUp("login", body);
       data = await sendRequest(
-        `http://localhost:5000/api/users/login`,
+        process.env.REACT_APP_BACKEND_URL + `api/users/login`,
         method,
         body,
         headers
@@ -88,7 +88,7 @@ const Auth = () => {
         //   email: state.inputs.email.value,
         // });
         data = await sendRequest(
-          `http://localhost:5000/api/users/signup`,
+          process.env.REACT_APP_BACKEND_URL + `api/users/signup`,
           method,
           formData
           //headers
@@ -143,7 +143,6 @@ const Auth = () => {
   useEffect(() => {
     SetInputRest(false);
   }, [isLogin]);
-
   return (
     <>
       <ErrorModal error={httpError} onClear={clearError} />

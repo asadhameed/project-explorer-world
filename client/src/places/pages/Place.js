@@ -34,7 +34,7 @@ const Place = () => {
         Authorization: `Bearer ${token}`,
       };
       const data = await sendRequest(
-        "http://localhost:5000/api/places/",
+        process.env.REACT_APP_BACKEND_URL + "api/places/",
         "POST",
         // JSON.stringify({
         //   title: state.inputs.title.value,

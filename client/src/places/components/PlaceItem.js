@@ -26,7 +26,7 @@ const PlaceItem = (props) => {
 
   const confirmDeleteHandler = async () => {
     const data = await sendRequest(
-      `http://localhost:5000/api/places/${props.place.id}`,
+      process.env.REACT_APP_BACKEND_URL + `api/places/${props.place.id}`,
       "DELETE",
       null,
       { Authorization: `Bearer ${authContext.token}` }
@@ -78,7 +78,10 @@ const PlaceItem = (props) => {
         <Card className="place-item__content">
           {isSpinnerActive && <Spinner asOverlay />}
           <div className="place-item__imag">
-            <img src={`http://localhost:5000/${image}`} alt={title} />
+            <img
+              src={process.env.REACT_APP_BACKEND_URL + `${image}`}
+              alt={title}
+            />
           </div>
           <div className="place-item__info">
             <h2>{title}</h2>
