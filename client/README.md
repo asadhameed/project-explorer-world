@@ -8,6 +8,10 @@ The application has the following pages:
 - <strong> Create A place, Delete a place, Update a place</strong>
 - If A user is login or sign up then save token in localStorage but the token will expire in 1 hour. So after one hour later the user will be logout automatically (Auth-hooks.js).
 
+# Project Note
+
+1. [see concept Code-Splitting](https://reactjs.org/docs/code-splitting.html). Bundling is great, but as your app grows, your bundle will grow too. Especially if you are including large third-party libraries. You need to keep an eye on the code you are including in your bundle so that you don’t accidentally make it so large that your app takes a long time to load.
+
 #### Problems
 
 1. When a user switch from login to signUp the input value is don't rest. (Inputs.js comments). For rest the input value i change the logic and introduce the restInput props (Input.js) and change code inside from_hook.js
@@ -17,6 +21,7 @@ The application has the following pages:
 5. To redirect from one page to another you can also use useHistory hook form react-router-dom (see:- Place.js)
 6. In delete place when used the useHistory hook that didn't update the page because router already in the same page (PlaceItem.js see the comments).
    <strong> Solution </strong> define a deleteHandler where filter the array and remove the element.
+7. when use React.lazy(app.js) without fallback and Suspense give a error "Error: A React component suspended while rendering, but no fallback UI was specified." <strong> solution </strong> use the suspense component from react library and use it in the code
 
 #### Package Install
 
@@ -50,6 +55,8 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### Make a copy of .env and keep name of .env.production
 
 #### Errors:-
 
