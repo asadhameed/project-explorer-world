@@ -8,13 +8,13 @@ const authentication = async (req, res, next) => {
   if (req.method === "OPTIONS") return next();
   try {
     const token = req.headers.authorization.split(" ")[1];
-    if (!token) return next(new HttpError("UnAuthorization", 401));
+    if (!token) return next(new HttpError("Forbidden", 403));
     const decode = jwt.verify(token, "myPrivateKey");
     req.userData = { userId: decode.userId };
     return next();
   } catch (error) {
     console.log(error);
-    return next(new HttpError("UnAuthorization", 401));
+    return next(new HttpError("Forbidden", 403));
   }
 };
 
@@ -31,12 +31,12 @@ const authorization = async (req, res, next) => {
      *************************************************************/
     console.log(place);
     if (place.creator.toString() !== req.userData.userId)
-      return next(new HttpError("Forbidden", 403));
+      return next(new HttpError("Forbidden", 401));
 
     return next();
   } catch (error) {
     console.log(error);
-    return next(new HttpError("Forbidden", 403));
+    return next(new HttpError("Unauthorized", 401));
   }
 };
 exports.authorization = authorization;
