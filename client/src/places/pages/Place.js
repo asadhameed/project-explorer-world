@@ -54,7 +54,7 @@ const Place = () => {
       }
     } catch (error) {
       setImageError(
-        "Data is missing, Please check your input data. May be you don't provide place image"
+        "Data is missing, Please check your input data. May be you don't provide a place image"
       );
     }
   };

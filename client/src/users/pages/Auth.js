@@ -95,7 +95,7 @@ const Auth = () => {
         );
       } catch (error) {
         setImageError(
-          "Data is missing, Please check your input data. May be you don't provide user profile picture"
+          "Data is missing, Please check your input data. May be you don't provide a profile picture"
         );
       }
 
