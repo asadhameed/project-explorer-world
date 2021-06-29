@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import Users from "../users/pages/Users";
 import MainNavigation from "../shared/components/navigation/MainNavigation";
@@ -11,6 +11,7 @@ const App = () => {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null);
   const [token, setToken] = useState(null);
+
   /****************************************************************************
    * Login and logout working correctly But  it is better useCallback hook
    * Login and logout function wraps with use callback so that is not
@@ -21,11 +22,20 @@ const App = () => {
   const login = useCallback((uid, token) => {
     setUserId(uid);
     setToken(token);
+    localStorage.setItem("userData", JSON.stringify({ userId: uid, token }));
   }, []);
   const logout = useCallback(() => {
     setUserId(null);
     setToken(null);
+    localStorage.removeItem("userData");
   }, []);
+
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    if (userData && userData.userId && userData.token) {
+      login(userData.userId, userData.token);
+    }
+  }, [login]);
 
   let route;
   if (token) {
