@@ -12,7 +12,6 @@ const UserPlaces = (props) => {
       const data = await sendRequest(
         process.env.REACT_APP_BACKEND_URL + `api/places/user/${userId}`
       );
-      console.log(data);
       if (data) setUserPlaces(data.places);
       else setUserPlaces([]);
     };

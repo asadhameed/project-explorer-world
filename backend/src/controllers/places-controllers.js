@@ -59,7 +59,6 @@ const createPlace = async (req, res, next) => {
     if (!user)
       return next(new HttpError("Couldn't  find  user for provide id", 402));
   } catch (error) {
-    console.log(error);
     return next(
       new HttpError("Creating a place failed, Please try again later", 500)
     );
@@ -90,7 +89,6 @@ const createPlace = async (req, res, next) => {
      *  The upper line will not send error to client and application will crash.
      * if you want to send error to client then use return next( new HttpError("Creating place failed, Please try again later", 500))
      */
-    console.log(error);
     return next(
       new HttpError("Creating place failed, Please try again later", 500)
     );

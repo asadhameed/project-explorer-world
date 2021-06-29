@@ -50,7 +50,6 @@ app.use((error, req, res, next) => {
     .status(error.code || 500)
     .json({ message: error.message || "An unknown Error occurred!" });
 });
-console.log(process.env.DB_URL);
 mongoose
   .connect(`${process.env.DB_URL}`, {
     useNewUrlParser: true,

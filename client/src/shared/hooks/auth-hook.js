@@ -21,7 +21,6 @@ export const useAuthHook = () => {
     const tokenExpirationDate =
       expiration || new Date(new Date().getTime() + 1000 * 60 * 60); // server send token which is expire in one hour
     setTokenExpirationDate(tokenExpirationDate);
-    console.log(tokenExpirationDate);
     localStorage.setItem(
       "userData",
       JSON.stringify({

@@ -13,7 +13,7 @@ const generateToken = async (user) => {
         expiresIn: "1h",
       }
     );
-    console.log(token);
+
     return token;
   } catch (error) {
     throw error;
@@ -63,7 +63,6 @@ const signup = async (req, res, next) => {
       return next(new HttpError("User exists already, Please log in", 422));
     }
   } catch (error) {
-    console.log(error);
     return next(new HttpError("Sign Up is failed , Please try later", 500));
   }
   let hashPassword;
@@ -85,7 +84,6 @@ const signup = async (req, res, next) => {
     const token = await generateToken(createUser);
     res.json({ userId: createUser._id, email: createUser.email, token });
   } catch (error) {
-    console.log(error);
     return next(new HttpError("Sign Up is failed, Please try later", 500));
   }
 };

@@ -13,7 +13,6 @@ const authentication = async (req, res, next) => {
     req.userData = { userId: decode.userId };
     return next();
   } catch (error) {
-    console.log(error);
     return next(new HttpError("Forbidden", 403));
   }
 };
@@ -29,13 +28,11 @@ const authorization = async (req, res, next) => {
      * the if statement will be true and give Error
      * So object should convert to string for successful result.
      *************************************************************/
-    console.log(place);
     if (place.creator.toString() !== req.userData.userId)
       return next(new HttpError("Forbidden", 401));
 
     return next();
   } catch (error) {
-    console.log(error);
     return next(new HttpError("Unauthorized", 401));
   }
 };

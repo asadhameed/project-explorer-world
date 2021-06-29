@@ -19,7 +19,6 @@ const HttpError = require("../models/http-error");
 const errorHandler = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log(errors);
     throw new HttpError("Invalid inputs passed, Please check your data", 422);
   }
   next();

@@ -29,7 +29,6 @@ const PlaceUpdate = () => {
 
   const placeSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log("token-------->", authContext.token);
 
     const data = await sendRequest(
       process.env.REACT_APP_BACKEND_URL + `api/places/${placeId}`,
