@@ -72,7 +72,7 @@ just simply run server in command line
 
 ### Make a copy of .env and keep name of .env.production this file working with serve as well.
 
-### The code deploy on firebase hosting.
+## The code deploy on firebase hosting.
 
 Firebase Hosting provides fast and secure hosting for your web app, static and dynamic content, and microservices.\
 
@@ -100,3 +100,5 @@ See the section about [firebase](https://firebase.google.com/docs/hosting) and a
 - 2. LogicalError: After useEffect then state change in PlaceUpdate but the input did not show the values because the input
      is first initial. </br>
      <strong> Solution:-</strong> Check the state.inputs.title.value if empty then return loading page otherwise update the input fields (PlaceUpdate.js)
+
+#### The code is deploy on firebase.

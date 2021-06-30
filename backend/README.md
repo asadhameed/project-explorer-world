@@ -75,7 +75,7 @@ You can configure heroku with github directly. When you push code to the github 
 In our case the project consists on backend and client in github. You should do the following steps.
 
 1. Keep src code in build folder and build code should be but in .gitignore file.
-2. First running on heroku then do the following steps otherwise go to step 3.
+2. First time runs the heroku then do the following steps otherwise go to step 3.
    1. create a application on heroku side.
    2. If you haven't already, log in to your Heroku account and follow the prompts to create a new SSH public key. `npm heroku login`
    3. Create a new Git repository , Initialize a git repository in a new or existing directory.
@@ -87,11 +87,73 @@ In our case the project consists on backend and client in github. You should do 
    `git commit -am "commit comments"`
    `git push heroku master`
 
-###### Change the nodemon to node in package.json
+### Change the nodemon to node in package.json
 
 Open package.json and change the following code
 `"start": "nodemon app.js"` change to `"start": "node app.js"`
 If you forget this then may be you face error because nodemon is running if you are working on development stage.
 For production you should Run the code on node
+
+## Deploying a Combined App (Backend and client) on heroku
+
+The following steps should required to keep both side on one server
+
+1. Copy the backend code in build-combine folder.
+2. On client change the .env.production REACT_APP_BACKEND_URL variable to your heroku app address.
+3. On client or frontend `npm run build` it will build the frontend code into a static pages.
+4. copy all files from client/build and paste it in the backend build-combine/public folder.
+5. Inside on backend/build-combine have the app.js file so do the following changes
+
+Remove the following code from app.js.
+
+```js
+app.use((req, res, next) => {
+  throw new HttpError("couldn't found Path", 404);
+});
+```
+
+And before placesRouter and usersRouter put the following code
+
+```js
+app.use(express.static(path.join("public")));
+```
+
+And After placesRouter and userRouter put the following code
+
+```js
+app.use((req, res, next) => {
+  res.sendFile(path.resolve(__dirname, "public", "index.html"));
+});
+```
+
+The overall code will be the following
+
+```js
+app.use(express.static(path.join("public")));
+
+app.use("/api/places", placesRouter);
+app.use("/api/users", usersRouter);
+
+app.use((req, res, next) => {
+  res.sendFile(path.resolve(__dirname, "public", "index.html"));
+});
+```
+
+Remove the following code from app.js Because both will running in the same server
+
+```js
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin , X-Requested-With, Content-Type, Accept, Authorization"
+  );
+
+  res.setHeader("Access-Control-Allow-Methods", "GET  , PATCH, DELETE");
+  next();
+});
+```
+
+## [Deploy the client and backend on same server in heroku hosting](#how-can-deploy-the-code-on-heroku-hosting)
 
 #### The code is deploy on heroku.
