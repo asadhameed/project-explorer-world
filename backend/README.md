@@ -69,7 +69,7 @@ Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
 
 Runs the test and shows the test result. The result shows how many Test suites, how many tests are passed and how many tests are failed.<br />
 
-#### How can Deploy the code on heroku hosting
+## How can Deploy the code on heroku hosting
 
 You can configure heroku with github directly. When you push code to the github then code directly deploy to heroku.
 In our case the project consists on backend and client in github. You should do the following steps.
