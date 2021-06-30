@@ -9,6 +9,7 @@ In the project directory, you can run:
 3. special note if return promise then write code inside in try catch block
 4. Compare String and object will give some logical error (check-auth.js)
 5. Some time the browser send OPTIONS METHOD. If you use middleware function then try to call next middleware (check-auth.js).If remove the req.method="OPTIONS" when you create, update, delete the place then browser will send two request and you will never create, delete, update the place.
+6. Deploy app on heroku, create directory uploads\images otherwise the application will not upload image and application will not running.
 
 ### `npm init`
 
@@ -67,3 +68,5 @@ Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
 ### `npm test`
 
 Runs the test and shows the test result. The result shows how many Test suites, how many tests are passed and how many tests are failed.<br />
+
+#### The code is deploy on heroku.
