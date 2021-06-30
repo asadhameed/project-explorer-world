@@ -72,6 +72,27 @@ just simply run server in command line
 
 ### Make a copy of .env and keep name of .env.production this file working with serve as well.
 
+### The code deploy on firebase hosting.
+
+Firebase Hosting provides fast and secure hosting for your web app, static and dynamic content, and microservices.\
+
+1. Step 1: Install the Firebase CLI. Run from npm `npm install -g firebase-tools`
+   1. Log in and test the Firebase CLI `firebase login`
+2. Step 2: Initialize your project
+
+   1. create a new project in [firebase](https://console.firebase.google.com/)
+   2. Open the project directory "client" and run `firebase init` or `firebase init hosting`
+   3. select option 'Hosting: configuration files for Firebase Hosting...."
+   4. select an existing project (choose your project)
+   5. what do you want to use as your public directory (public) public is by default. In our case give 'build'.
+   6. Configure as as single-page-app (rewrite all urls to /index.html)? (y/N) -----> choose y
+   7. Set up automatic builds and deploys with gitHub?(y/n)
+   8. File build/index.html already exists. Overwrite? (y/n) ------> choose n
+
+3. Step 3: Deploy to your site `firebase deploy`
+
+See the section about [firebase](https://firebase.google.com/docs/hosting) and also visit[firebase npm](https://www.npmjs.com/package/firebase-tools) for more information.
+
 #### Errors:-
 
 - 1. Error: Too many re-renders. React limits the number of renders to prevent an infinite loop. Because i call function setFormDate (PlaceUpdate.js) and this re-renders components again and again.</br>
