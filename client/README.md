@@ -56,7 +56,21 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### Make a copy of .env and keep name of .env.production
+### `npm install -g serve`
+
+Assuming you would like to serve a static site, single page application or just a static file (no matter if on your device or on the local network), this package is just the right choice for you.\
+
+See the section about [serve](https://www.npmjs.com/package/serve) for more information.
+
+### `cd build`
+
+Open the build folder.
+
+### `serve`
+
+just simply run server in command line
+
+### Make a copy of .env and keep name of .env.production this file working with serve as well.
 
 #### Errors:-
 
