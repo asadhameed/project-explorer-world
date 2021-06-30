@@ -31,9 +31,16 @@ const MainNavigation = () => {
           <span />
         </button>
 
-        <Link to="/">
+        {/* <Link to="/">
           <h1 className="main-navigation__title">Your Places</h1>
-        </Link>
+        </Link> */}
+        <a
+          rel="noopener noreferrer"
+          href="https://github.com/asadhameed/project-explorer-world"
+          target="_blank"
+        >
+          <h2 className="main-navigation__title">Project Code on github</h2>
+        </a>
         <nav className="main-navigation__header-nav">
           <NavLinks />
         </nav>
