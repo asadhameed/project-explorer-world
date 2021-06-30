@@ -72,6 +72,9 @@ just simply run server in command line
 
 ### Make a copy of .env and keep name of .env.production this file working with serve as well.
 
+you should give your BACK api address e.g
+REACT_APP_BACKEND_URL='http://localhost:3000/'
+
 ## The code deploy on firebase hosting.
 
 Firebase Hosting provides fast and secure hosting for your web app, static and dynamic content, and microservices.\
