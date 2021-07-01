@@ -23,7 +23,7 @@ Express is a minimal and flexible Node.js web application framework that provide
 ### `npm install --save-dev nodemon`
 
 nodemon is a tool that helps develop node.js based applications by automatically restarting the node application when file changes in the directory are detected.<br />
-[Read More About Express](https://www.npmjs.com/package/nodemon/)
+[Read More About Nodemon](https://www.npmjs.com/package/nodemon/)
 
 ### `npm install --save express-validator`
 
@@ -77,14 +77,14 @@ In our case the project consists on backend and client in github. You should do 
 1. Keep src code in build folder and build code should be but in .gitignore file.
 2. First time runs the heroku then do the following steps otherwise go to step 3.
    1. create a application on heroku side.
-   2. If you haven't already, log in to your Heroku account and follow the prompts to create a new SSH public key. `npm heroku login`
-   3. Create a new Git repository , Initialize a git repository in a new or existing directory.
-      `cd build/`
-      `git init`
+   2. If you haven't already, log in to your Heroku account and follow the prompts to create a new SSH public key. `heroku login`
+   3. Create a new Git repository , Initialize a git repository in a new or existing directory.\
+      `cd build/`\
+      `git init`\
       `heroku git:remote -a heroku_app_name`
 3. Deploy your application, Commit your code to the repository and deploy it to Heroku using Git.
-   `git add .`
-   `git commit -am "commit comments"`
+   `git add .`\
+   `git commit -am "commit comments"`\
    `git push heroku master`
 
 ### Change the nodemon to node in package.json
@@ -92,7 +92,7 @@ In our case the project consists on backend and client in github. You should do 
 Open package.json and change the following code
 `"start": "nodemon app.js"` change to `"start": "node app.js"`
 If you forget this then may be you face error because nodemon is running if you are working on development stage.
-For production you should Run the code on node
+For production you should Run the code on hosting side node env.
 
 ## Deploying a Combined App (Backend and client) on heroku
 

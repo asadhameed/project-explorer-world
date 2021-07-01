@@ -84,12 +84,12 @@ In our case the project consists on backend and client in github. You should do 
    1. Create a application on heroku side.
    2. If you haven't already, log in to your Heroku account and follow the prompts to create a new SSH public key. `heroku login`
    3. Create a new Git repository , Initialize a git repository in a new or existing directory.\
-      `cd build/` .\
-      `git init` .\
+      `cd build/` \
+      `git init` \
       `heroku git:remote -a heroku_app_name`
 3. Deploy your application, Commit your code to the repository and deploy it to Heroku using Git.\
-   `git add .`.\
-   `git commit -am "commit comments"`.\
-   `git push heroku master`./
+   `git add .`\
+   `git commit -am "commit comments"`\
+   `git push heroku master`
 
 ###### The App.js file is available so you can copy and paste inside backend/build-combine
