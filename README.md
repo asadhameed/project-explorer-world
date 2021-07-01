@@ -59,7 +59,7 @@ app.use((req, res, next) => {
 });
 ```
 
-Remove the following code from app.js Because both will running in the same server
+Remove the following code from app.js Because both projects will running in the same server
 
 ```js
 app.use((req, res, next) => {
