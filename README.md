@@ -74,6 +74,18 @@ app.use((req, res, next) => {
 });
 ```
 
+#### Special Note
+
+When you upload client/frontend and server/backend code in same server then we don't need a cors policy it will working in web browsers.
+when you open the application in mobile browsers then the frontend can load but the application don't interact with backend.
+So you should do the following step
+
+### `npm install -save cors`
+
+CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.\
+
+See the section about [cors](https://www.npmjs.com/package/cors) for more information.
+
 ## How can Deploy the code on heroku hosting
 
 You can configure heroku with github directly. When you push code to the github then code directly deploy to heroku.

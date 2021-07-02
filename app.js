@@ -2,11 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const path = require("path");
+const cors = require("cors");
 
 const placesRouter = require("./src/routes/places-routes");
 const usersRouter = require("./src/routes/users-routes");
 
 const app = express();
+
+app.use(cors());
 app.use(express.json());
 
 app.use(

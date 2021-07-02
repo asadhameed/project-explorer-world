@@ -65,6 +65,12 @@ An implementation of JSON Web Tokens. <br />
 Runs the app in the development mode.<br />
 Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
 
+### `npm install -save cors`
+
+CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.\
+
+See the section about [cors](https://www.npmjs.com/package/cors) for more information.
+
 ### `npm test`
 
 Runs the test and shows the test result. The result shows how many Test suites, how many tests are passed and how many tests are failed.<br />
